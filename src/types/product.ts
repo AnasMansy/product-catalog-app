@@ -59,6 +59,10 @@ export interface ProductsResponse {
   limit: number;
 }
 
+export interface CachedProductList extends ProductsResponse {
+  fetchedAt: number;
+}
+
 export interface ProductState {
   items: Product[];
   categories: Category[];
@@ -70,4 +74,7 @@ export interface ProductState {
   detailsStatus: RequestStatus;
   error: string | null;
   lastLoadedKey: string | null;
+  lastFetched: number | null;
+  categoriesLastFetched: number | null;
+  cacheByKey: Record<string, CachedProductList>;
 }

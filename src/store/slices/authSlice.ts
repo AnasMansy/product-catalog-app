@@ -1,15 +1,20 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
+import {
+  clearStoredAuth,
+  createDemoSession,
+  createDummyJsonSession,
+  persistAuth,
+  readDemoUser,
+  readStoredAuth,
+} from "@/lib/authStorage";
 import { loginUser } from "@/lib/api";
 import type { AppDispatch } from "@/store/store";
-import type { AuthState, LoginCredentials, User } from "@/types/auth";
-
-const AUTH_STORAGE_KEY = "product-catalog-auth";
-
-interface StoredAuthSession {
-  token: string;
-  user: User;
-}
+import type {
+  AuthState,
+  LoginCredentials,
+  StoredAuthSession,
+} from "@/types/auth";
 
 const initialState: AuthState = {
   token: null,
@@ -18,40 +23,6 @@ const initialState: AuthState = {
   error: null,
   isHydrated: false,
 };
-
-function readStoredAuth(): StoredAuthSession | null {
-  if (typeof window === "undefined") {
-    return null;
-  }
-
-  const rawSession = window.localStorage.getItem(AUTH_STORAGE_KEY);
-  if (!rawSession) {
-    return null;
-  }
-
-  try {
-    return JSON.parse(rawSession) as StoredAuthSession;
-  } catch {
-    window.localStorage.removeItem(AUTH_STORAGE_KEY);
-    return null;
-  }
-}
-
-function persistAuth(session: StoredAuthSession) {
-  if (typeof window === "undefined") {
-    return;
-  }
-
-  window.localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(session));
-}
-
-function clearStoredAuth() {
-  if (typeof window === "undefined") {
-    return;
-  }
-
-  window.localStorage.removeItem(AUTH_STORAGE_KEY);
-}
 
 function getErrorMessage(error: unknown): string {
   if (error instanceof Error) {
@@ -72,19 +43,29 @@ export const login = createAsyncThunk<
   { rejectValue: string }
 >("auth/login", async (credentials, thunkApi) => {
   try {
+    const demoUser = readDemoUser();
+    const normalizedIdentifier = credentials.username.trim().toLowerCase();
+
+    if (demoUser) {
+      const matchesDemoIdentity =
+        normalizedIdentifier === demoUser.username.toLowerCase() ||
+        normalizedIdentifier === demoUser.email.toLowerCase();
+
+      if (matchesDemoIdentity) {
+        if (demoUser.password !== credentials.password) {
+          throw new Error(
+            "The password for your registered demo account is incorrect.",
+          );
+        }
+
+        const demoSession = createDemoSession(demoUser);
+        persistAuth(demoSession);
+        return demoSession;
+      }
+    }
+
     const response = await loginUser(credentials);
-    const session = {
-      token: response.accessToken,
-      user: {
-        id: response.id,
-        username: response.username,
-        email: response.email,
-        firstName: response.firstName,
-        lastName: response.lastName,
-        gender: response.gender,
-        image: response.image,
-      },
-    };
+    const session = createDummyJsonSession(response);
 
     persistAuth(session);
     return session;

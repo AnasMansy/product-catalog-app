@@ -1,4 +1,8 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import {
+  createAsyncThunk,
+  createSlice,
+  type PayloadAction,
+} from "@reduxjs/toolkit";
 
 import {
   getCategories,
@@ -8,13 +12,33 @@ import {
   searchProducts,
 } from "@/lib/api";
 import type { RootState } from "@/store/store";
-import type { ProductState, ProductsResponse } from "@/types/product";
+import type {
+  Category,
+  ProductState,
+  ProductsResponse,
+} from "@/types/product";
 
 interface FetchProductsArgs {
   query?: string;
   category?: string | null;
   force?: boolean;
 }
+
+interface FetchProductsPayload extends ProductsResponse {
+  cacheKey: string;
+  fetchedAt: number;
+}
+
+interface FetchCategoriesArgs {
+  force?: boolean;
+}
+
+interface FetchCategoriesPayload {
+  categories: Category[];
+  fetchedAt: number;
+}
+
+const PRODUCT_CACHE_DURATION_MS = 5 * 60 * 1000;
 
 const initialState: ProductState = {
   items: [],
@@ -27,6 +51,9 @@ const initialState: ProductState = {
   detailsStatus: "idle",
   error: null,
   lastLoadedKey: null,
+  lastFetched: null,
+  categoriesLastFetched: null,
+  cacheByKey: {},
 };
 
 function normalizeValue(value?: string | null): string {
@@ -48,8 +75,16 @@ function getErrorMessage(error: unknown): string {
   return "Unable to load product data right now.";
 }
 
+function isCacheExpired(timestamp: number | null): boolean {
+  if (timestamp === null) {
+    return true;
+  }
+
+  return Date.now() - timestamp >= PRODUCT_CACHE_DURATION_MS;
+}
+
 export const fetchProducts = createAsyncThunk<
-  ProductsResponse,
+  FetchProductsPayload,
   FetchProductsArgs | undefined,
   { rejectValue: string; state: RootState }
 >(
@@ -57,17 +92,43 @@ export const fetchProducts = createAsyncThunk<
   async (args, thunkApi) => {
     const query = normalizeValue(args?.query);
     const category = normalizeValue(args?.category);
+    const cacheKey = buildCacheKey({ query, category });
+    const cachedEntry = thunkApi.getState().products.cacheByKey[cacheKey];
+
+    if (cachedEntry && !isCacheExpired(cachedEntry.fetchedAt) && !args?.force) {
+      return {
+        ...cachedEntry,
+        cacheKey,
+      };
+    }
+
+    const fetchedAt = Date.now();
 
     try {
       if (query) {
-        return await searchProducts(query);
+        const response = await searchProducts(query);
+        return {
+          ...response,
+          cacheKey,
+          fetchedAt,
+        };
       }
 
       if (category) {
-        return await getProductsByCategory(category);
+        const response = await getProductsByCategory(category);
+        return {
+          ...response,
+          cacheKey,
+          fetchedAt,
+        };
       }
 
-      return await getProducts();
+      const response = await getProducts();
+      return {
+        ...response,
+        cacheKey,
+        fetchedAt,
+      };
     } catch (error) {
       return thunkApi.rejectWithValue(getErrorMessage(error));
     }
@@ -79,13 +140,19 @@ export const fetchProducts = createAsyncThunk<
       const force = args?.force ?? false;
       const cacheKey = buildCacheKey({ query, category });
       const { products } = getState();
+      const cachedEntry = products.cacheByKey[cacheKey];
 
       if (force) {
         return true;
       }
 
+      if (products.listStatus === "loading" && products.lastLoadedKey === cacheKey) {
+        return false;
+      }
+
       if (
-        products.listStatus === "succeeded" &&
+        cachedEntry &&
+        !isCacheExpired(cachedEntry.fetchedAt) &&
         products.lastLoadedKey === cacheKey
       ) {
         return false;
@@ -97,29 +164,47 @@ export const fetchProducts = createAsyncThunk<
 );
 
 export const fetchCategories = createAsyncThunk<
-  Awaited<ReturnType<typeof getCategories>>,
-  void,
+  FetchCategoriesPayload,
+  FetchCategoriesArgs | undefined,
   { rejectValue: string; state: RootState }
 >(
   "products/fetchCategories",
-  async (_, thunkApi) => {
+  async (args, thunkApi) => {
+    const { categories, categoriesLastFetched } = thunkApi.getState().products;
+
+    if (
+      categories.length > 0 &&
+      !isCacheExpired(categoriesLastFetched) &&
+      !args?.force
+    ) {
+      return {
+        categories,
+        fetchedAt: categoriesLastFetched ?? Date.now(),
+      };
+    }
+
     try {
-      return await getCategories();
+      return {
+        categories: await getCategories(),
+        fetchedAt: Date.now(),
+      };
     } catch (error) {
       return thunkApi.rejectWithValue(getErrorMessage(error));
     }
   },
   {
-    condition: (_, { getState }) => {
+    condition: (args, { getState }) => {
       const { products } = getState();
+      const force = args?.force ?? false;
 
       if (products.categoriesStatus === "loading") {
         return false;
       }
 
       if (
-        products.categoriesStatus === "succeeded" &&
-        products.categories.length > 0
+        !force &&
+        products.categories.length > 0 &&
+        !isCacheExpired(products.categoriesLastFetched)
       ) {
         return false;
       }
@@ -166,6 +251,34 @@ const productsSlice = createSlice({
   name: "products",
   initialState,
   reducers: {
+    restoreProductsFromCache(
+      state,
+      action: PayloadAction<
+        Pick<FetchProductsArgs, "query" | "category"> & {
+          requestedAt: number;
+        }
+      >,
+    ) {
+      const cacheKey = buildCacheKey({
+        query: action.payload.query,
+        category: action.payload.category,
+      });
+      const cachedEntry = state.cacheByKey[cacheKey];
+
+      if (
+        !cachedEntry ||
+        action.payload.requestedAt - cachedEntry.fetchedAt >=
+          PRODUCT_CACHE_DURATION_MS
+      ) {
+        return;
+      }
+
+      state.items = cachedEntry.products;
+      state.listStatus = "succeeded";
+      state.error = null;
+      state.lastLoadedKey = cacheKey;
+      state.lastFetched = cachedEntry.fetchedAt;
+    },
     setSearchQuery(state, action: { payload: string }) {
       state.searchQuery = action.payload;
       state.error = null;
@@ -190,10 +303,7 @@ const productsSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchProducts.fulfilled, (state, action) => {
-        const actionKey = buildCacheKey({
-          query: action.meta.arg?.query,
-          category: action.meta.arg?.category,
-        });
+        const actionKey = action.payload.cacheKey;
         const currentKey = buildCacheKey({
           query: state.searchQuery,
           category: state.selectedCategory,
@@ -207,6 +317,14 @@ const productsSlice = createSlice({
         state.items = action.payload.products;
         state.error = null;
         state.lastLoadedKey = currentKey;
+        state.lastFetched = action.payload.fetchedAt;
+        state.cacheByKey[action.payload.cacheKey] = {
+          products: action.payload.products,
+          total: action.payload.total,
+          skip: action.payload.skip,
+          limit: action.payload.limit,
+          fetchedAt: action.payload.fetchedAt,
+        };
       })
       .addCase(fetchProducts.rejected, (state, action) => {
         const actionKey = buildCacheKey({
@@ -231,7 +349,8 @@ const productsSlice = createSlice({
       })
       .addCase(fetchCategories.fulfilled, (state, action) => {
         state.categoriesStatus = "succeeded";
-        state.categories = action.payload;
+        state.categories = action.payload.categories;
+        state.categoriesLastFetched = action.payload.fetchedAt;
         state.error = null;
       })
       .addCase(fetchCategories.rejected, (state, action) => {
@@ -258,6 +377,7 @@ const productsSlice = createSlice({
 export const {
   clearProductsError,
   clearSelectedProduct,
+  restoreProductsFromCache,
   setSearchQuery,
   setSelectedCategory,
 } = productsSlice.actions;
