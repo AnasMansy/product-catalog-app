@@ -8,11 +8,6 @@ import ErrorMessage from "@/components/ErrorMessage";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { clearAuthError, login } from "@/store/slices/authSlice";
 
-const demoCredentials = {
-  username: "emilys",
-  password: "emilyspass",
-};
-
 export default function LoginPageClient() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -25,10 +20,14 @@ export default function LoginPageClient() {
   const isRegisteredRedirect = searchParams.get("registered") === "1";
 
   const [credentials, setCredentials] = useState(() => ({
-    username: registeredUsername ?? demoCredentials.username,
-    password: registeredUsername ? "" : demoCredentials.password,
+    username: registeredUsername ?? "",
+    password: "",
   }));
+const [isMounted, setIsMounted] = useState(false);
 
+useEffect(() => {
+  setIsMounted(true);
+}, []);
   const redirectTo = searchParams.get("redirectTo") || "/products";
 
   useEffect(() => {
@@ -46,10 +45,6 @@ export default function LoginPageClient() {
       ...current,
       [field]: value,
     }));
-  };
-
-  const applyDemoCredentials = () => {
-    setCredentials(demoCredentials);
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -87,43 +82,6 @@ export default function LoginPageClient() {
           filter by category, and view full product details in a responsive
           shopping-style experience.
         </p>
-
-        <div className="glass-panel mt-10 rounded-[2rem] p-6">
-          <div className="flex items-center justify-between gap-4">
-            <div>
-              <p className="theme-foreground text-sm font-semibold">
-                Try the demo catalog
-              </p>
-              <p className="theme-soft mt-1 text-sm">
-                Use these sample credentials to enter the product catalog.
-              </p>
-            </div>
-
-            <button
-              type="button"
-              onClick={applyDemoCredentials}
-              className="app-contrast-button rounded-full px-4 py-2 text-sm font-semibold transition"
-            >
-              Autofill
-            </button>
-          </div>
-
-          <div className="theme-soft mt-5 grid gap-3 text-sm sm:grid-cols-2">
-            <div className="glass-stat rounded-2xl p-4">
-              <p className="theme-muted text-xs uppercase tracking-[0.2em]">
-                Username
-              </p>
-              <p className="mt-2 font-semibold">{demoCredentials.username}</p>
-            </div>
-
-            <div className="glass-stat rounded-2xl p-4">
-              <p className="theme-muted text-xs uppercase tracking-[0.2em]">
-                Password
-              </p>
-              <p className="mt-2 font-semibold">{demoCredentials.password}</p>
-            </div>
-          </div>
-        </div>
       </div>
 
       <div className="glass-panel rounded-[2.5rem] p-8 sm:p-10">
@@ -149,8 +107,8 @@ export default function LoginPageClient() {
         <form onSubmit={handleSubmit} className="mt-8 space-y-5">
           {isRegisteredRedirect ? (
             <div className="app-success rounded-2xl px-4 py-3 text-sm">
-              Your demo account was created successfully. Sign in with your
-              username or email to continue to the product catalog.
+              Your account was created successfully. Sign in with your username
+              or email to continue to the product catalog.
             </div>
           ) : null}
 
@@ -164,7 +122,7 @@ export default function LoginPageClient() {
               value={credentials.username}
               onChange={(event) => updateField("username", event.target.value)}
               className="app-input mt-2 w-full rounded-2xl px-4 py-3 outline-none transition focus:border-teal-500"
-              placeholder="emilys or your registered email"
+              placeholder="Enter your username or email"
               autoComplete="username"
             />
           </label>
@@ -188,7 +146,7 @@ export default function LoginPageClient() {
 
           <button
             type="submit"
-            disabled={!isHydrated || status === "loading"}
+            disabled={!isMounted || !isHydrated || status === "loading"}
             className="app-primary-button w-full rounded-full px-5 py-3 text-sm font-semibold transition disabled:cursor-not-allowed disabled:bg-slate-400 disabled:text-white"
           >
             {status === "loading" ? "Signing in..." : "Enter catalog"}
@@ -196,8 +154,8 @@ export default function LoginPageClient() {
         </form>
 
         <p className="theme-soft mt-6 text-sm leading-7">
-          You can sign in with the sample account above or create a demo account
-          to access the protected product catalog.
+          Sign in with your registered account to access the protected product
+          catalog.
         </p>
       </div>
     </section>
