@@ -73,28 +73,28 @@ export default function LoginPageClient() {
 
   return (
     <section className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[1.05fr_0.95fr]">
-      <div className="rounded-[2.5rem] border border-black/10 bg-slate-950 p-8 text-white shadow-xl sm:p-10">
-        <p className="text-xs font-semibold uppercase tracking-[0.28em] text-teal-300">
+      <div className="glass-hero rounded-[2.5rem] p-8 text-slate-950 sm:p-10">
+        <p className="text-xs font-semibold uppercase tracking-[0.28em] text-teal-700">
           Product catalog access
         </p>
 
-        <h1 className="mt-4 max-w-lg text-4xl font-semibold leading-tight sm:text-5xl">
+        <h1 className="mt-4 max-w-lg text-4xl font-semibold leading-tight text-slate-950 sm:text-5xl">
           Sign in to browse products, categories, and detailed product pages.
         </h1>
 
-        <p className="mt-6 max-w-xl text-base leading-8 text-slate-300">
+        <p className="mt-6 max-w-xl text-base leading-8 text-slate-700">
           Access the protected catalog to explore products, search by title,
           filter by category, and view full product details in a responsive
           shopping-style experience.
         </p>
 
-        <div className="mt-10 rounded-[2rem] bg-white/8 p-6">
+        <div className="glass-panel mt-10 rounded-[2rem] p-6">
           <div className="flex items-center justify-between gap-4">
             <div>
-              <p className="text-sm font-semibold text-white">
+              <p className="text-sm font-semibold text-slate-950">
                 Try the demo catalog
               </p>
-              <p className="mt-1 text-sm text-slate-300">
+              <p className="mt-1 text-sm text-slate-600">
                 Use these sample credentials to enter the product catalog.
               </p>
             </div>
@@ -102,22 +102,22 @@ export default function LoginPageClient() {
             <button
               type="button"
               onClick={applyDemoCredentials}
-              className="rounded-full bg-teal-400 px-4 py-2 text-sm font-semibold text-slate-950 transition hover:bg-teal-300"
+              className="rounded-full bg-slate-950 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800"
             >
               Autofill
             </button>
           </div>
 
-          <div className="mt-5 grid gap-3 text-sm text-slate-200 sm:grid-cols-2">
-            <div className="rounded-2xl bg-white/10 p-4">
-              <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
+          <div className="mt-5 grid gap-3 text-sm text-slate-700 sm:grid-cols-2">
+            <div className="glass-stat rounded-2xl p-4">
+              <p className="text-xs uppercase tracking-[0.2em] text-slate-500">
                 Username
               </p>
               <p className="mt-2 font-semibold">{demoCredentials.username}</p>
             </div>
 
-            <div className="rounded-2xl bg-white/10 p-4">
-              <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
+            <div className="glass-stat rounded-2xl p-4">
+              <p className="text-xs uppercase tracking-[0.2em] text-slate-500">
                 Password
               </p>
               <p className="mt-2 font-semibold">{demoCredentials.password}</p>
@@ -126,7 +126,7 @@ export default function LoginPageClient() {
         </div>
       </div>
 
-      <div className="rounded-[2.5rem] border border-black/10 bg-white/90 p-8 shadow-xl backdrop-blur sm:p-10">
+      <div className="glass-panel rounded-[2.5rem] p-8 sm:p-10">
         <div className="flex items-center justify-between gap-4">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-teal-700">
@@ -140,7 +140,7 @@ export default function LoginPageClient() {
 
           <Link
             href="/register"
-            className="rounded-full border border-black/10 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+            className="rounded-full border border-white/45 bg-white/45 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-white/70"
           >
             Create account
           </Link>
@@ -163,7 +163,7 @@ export default function LoginPageClient() {
               type="text"
               value={credentials.username}
               onChange={(event) => updateField("username", event.target.value)}
-              className="mt-2 w-full rounded-2xl border border-black/10 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition focus:border-teal-500 focus:bg-white"
+              className="mt-2 w-full rounded-2xl border border-white/55 bg-white/55 px-4 py-3 text-slate-900 outline-none transition focus:border-teal-500 focus:bg-white/85"
               placeholder="emilys or your registered email"
               autoComplete="username"
             />
@@ -178,7 +178,7 @@ export default function LoginPageClient() {
               type="password"
               value={credentials.password}
               onChange={(event) => updateField("password", event.target.value)}
-              className="mt-2 w-full rounded-2xl border border-black/10 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition focus:border-teal-500 focus:bg-white"
+              className="mt-2 w-full rounded-2xl border border-white/55 bg-white/55 px-4 py-3 text-slate-900 outline-none transition focus:border-teal-500 focus:bg-white/85"
               placeholder="Enter your password"
               autoComplete="current-password"
             />
@@ -189,7 +189,7 @@ export default function LoginPageClient() {
           <button
             type="submit"
             disabled={!isHydrated || status === "loading"}
-            className="w-full rounded-full bg-slate-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-slate-400"
+            className="w-full rounded-full bg-teal-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-teal-700 disabled:cursor-not-allowed disabled:bg-slate-400"
           >
             {status === "loading" ? "Signing in..." : "Enter catalog"}
           </button>

@@ -112,24 +112,24 @@ export default function RegisterPageClient() {
 
   return (
     <section className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[0.92fr_1.08fr]">
-      <div className="rounded-[2.5rem] border border-black/10 bg-slate-950 p-8 text-white shadow-xl sm:p-10">
-        <p className="text-xs font-semibold uppercase tracking-[0.28em] text-amber-300">
+      <div className="glass-hero rounded-[2.5rem] p-8 text-slate-950 sm:p-10">
+        <p className="text-xs font-semibold uppercase tracking-[0.28em] text-amber-600">
           Demo registration
         </p>
-        <h1 className="mt-4 text-4xl font-semibold leading-tight sm:text-5xl">
+        <h1 className="mt-4 text-4xl font-semibold leading-tight text-slate-950 sm:text-5xl">
           Create a local demo account for this frontend-only starter.
         </h1>
-        <p className="mt-6 text-base leading-8 text-slate-300">
+        <p className="mt-6 text-base leading-8 text-slate-700">
           This route does not call a backend or database. It validates the
           fields in the browser, stores the account in localStorage under
-          <code className="mx-1 rounded bg-white/10 px-2 py-1 text-sm">
+          <code className="mx-1 rounded bg-white/45 px-2 py-1 text-sm text-slate-900">
             demoUser
           </code>
           , and hands the credentials off to the login screen.
         </p>
-        <div className="mt-8 grid gap-3 text-sm text-slate-300 sm:grid-cols-2">
-          <div className="rounded-2xl bg-white/10 p-5">
-            <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
+        <div className="mt-8 grid gap-3 text-sm text-slate-700 sm:grid-cols-2">
+          <div className="glass-stat rounded-2xl p-5">
+            <p className="text-xs uppercase tracking-[0.2em] text-slate-500">
               Validation
             </p>
             <p className="mt-3 leading-7">
@@ -137,8 +137,8 @@ export default function RegisterPageClient() {
               required before the demo account is saved.
             </p>
           </div>
-          <div className="rounded-2xl bg-white/10 p-5">
-            <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
+          <div className="glass-stat rounded-2xl p-5">
+            <p className="text-xs uppercase tracking-[0.2em] text-slate-500">
               Next step
             </p>
             <p className="mt-3 leading-7">
@@ -150,20 +150,20 @@ export default function RegisterPageClient() {
         <div className="mt-8 flex flex-col gap-4 sm:flex-row">
           <Link
             href="/login"
-            className="rounded-full border border-white/15 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
+            className="rounded-full border border-white/50 bg-white/35 px-5 py-3 text-sm font-semibold text-slate-900 transition hover:bg-white/55"
           >
             Back to login
           </Link>
           <Link
             href="/products"
-            className="rounded-full bg-teal-400 px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-teal-300"
+            className="rounded-full bg-slate-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
           >
             Preview protected route
           </Link>
         </div>
       </div>
 
-      <div className="rounded-[2.5rem] border border-black/10 bg-white/90 p-8 shadow-xl backdrop-blur sm:p-10">
+      <div className="glass-panel rounded-[2.5rem] p-8 sm:p-10">
         <p className="text-xs font-semibold uppercase tracking-[0.24em] text-teal-700">
           Register
         </p>
@@ -181,7 +181,7 @@ export default function RegisterPageClient() {
                 type="text"
                 value={values.name}
                 onChange={(event) => updateField("name", event.target.value)}
-                className="mt-2 w-full rounded-2xl border border-black/10 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition focus:border-teal-500 focus:bg-white"
+                className="mt-2 w-full rounded-2xl border border-white/55 bg-white/55 px-4 py-3 text-slate-900 outline-none transition focus:border-teal-500 focus:bg-white/85"
                 placeholder="Alex Johnson"
                 autoComplete="name"
               />
@@ -200,7 +200,7 @@ export default function RegisterPageClient() {
                 onChange={(event) =>
                   updateField("username", event.target.value)
                 }
-                className="mt-2 w-full rounded-2xl border border-black/10 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition focus:border-teal-500 focus:bg-white"
+                className="mt-2 w-full rounded-2xl border border-white/55 bg-white/55 px-4 py-3 text-slate-900 outline-none transition focus:border-teal-500 focus:bg-white/85"
                 placeholder="alexdemo"
                 autoComplete="username"
               />
@@ -217,7 +217,7 @@ export default function RegisterPageClient() {
                 type="email"
                 value={values.email}
                 onChange={(event) => updateField("email", event.target.value)}
-                className="mt-2 w-full rounded-2xl border border-black/10 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition focus:border-teal-500 focus:bg-white"
+                className="mt-2 w-full rounded-2xl border border-white/55 bg-white/55 px-4 py-3 text-slate-900 outline-none transition focus:border-teal-500 focus:bg-white/85"
                 placeholder="alex@example.com"
                 autoComplete="email"
               />
@@ -236,7 +236,7 @@ export default function RegisterPageClient() {
                 onChange={(event) =>
                   updateField("password", event.target.value)
                 }
-                className="mt-2 w-full rounded-2xl border border-black/10 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition focus:border-teal-500 focus:bg-white"
+                className="mt-2 w-full rounded-2xl border border-white/55 bg-white/55 px-4 py-3 text-slate-900 outline-none transition focus:border-teal-500 focus:bg-white/85"
                 placeholder="At least 8 characters"
                 autoComplete="new-password"
               />
@@ -255,7 +255,7 @@ export default function RegisterPageClient() {
                 onChange={(event) =>
                   updateField("confirmPassword", event.target.value)
                 }
-                className="mt-2 w-full rounded-2xl border border-black/10 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition focus:border-teal-500 focus:bg-white"
+                className="mt-2 w-full rounded-2xl border border-white/55 bg-white/55 px-4 py-3 text-slate-900 outline-none transition focus:border-teal-500 focus:bg-white/85"
                 placeholder="Repeat your password"
                 autoComplete="new-password"
               />
@@ -270,7 +270,7 @@ export default function RegisterPageClient() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full rounded-full bg-slate-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-slate-400"
+            className="w-full rounded-full bg-teal-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-teal-700 disabled:cursor-not-allowed disabled:bg-slate-400"
           >
             {isSubmitting ? "Saving demo account..." : "Create demo account"}
           </button>

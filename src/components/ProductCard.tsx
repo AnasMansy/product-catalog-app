@@ -13,7 +13,7 @@ export default function ProductCard({ product }: ProductCardProps) {
   return (
     <Link
       href={`/products/${product.id}`}
-      className="group flex h-full flex-col overflow-hidden rounded-[2rem] border border-black/10 bg-white/90 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl"
+      className="glass-panel group flex h-full flex-col overflow-hidden rounded-[2rem] transition duration-300 hover:-translate-y-1 hover:shadow-xl"
     >
       <div className="relative aspect-[4/3] overflow-hidden bg-slate-100">
         <Image
@@ -23,7 +23,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
           className="object-cover transition duration-500 group-hover:scale-105"
         />
-        <div className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold uppercase tracking-[0.15em] text-slate-700 shadow-sm">
+        <div className="glass-stat absolute left-4 top-4 rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.15em] text-slate-700">
           {product.category.replaceAll("-", " ")}
         </div>
       </div>

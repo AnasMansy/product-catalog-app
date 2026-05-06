@@ -12,8 +12,8 @@ export default function SearchBar({
   onValueChange,
 }: SearchBarProps) {
   return (
-    <div className="rounded-[2rem] border border-black/10 bg-white/80 p-2 shadow-sm backdrop-blur">
-      <label className="flex items-center gap-3 rounded-[1.5rem] bg-slate-50 px-4 py-3">
+    <div className="glass-panel rounded-[2rem] p-2">
+      <label className="flex items-center gap-3 rounded-[1.5rem] border border-white/45 bg-white/55 px-4 py-3">
         <svg
           aria-hidden="true"
           viewBox="0 0 24 24"
@@ -37,7 +37,7 @@ export default function SearchBar({
           <button
             type="button"
             onClick={() => onValueChange("")}
-            className="rounded-full bg-slate-200 px-3 py-1 text-xs font-semibold text-slate-700 transition hover:bg-slate-300"
+            className="rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-slate-700 transition hover:bg-amber-200"
           >
             Clear
           </button>

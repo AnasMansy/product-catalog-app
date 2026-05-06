@@ -121,54 +121,52 @@ export default function ProductsPageClient() {
   return (
     <ProtectedRoute>
       <section className="space-y-8">
-        <div className="rounded-[2.5rem] border border-black/10 bg-slate-950 p-8 text-white shadow-xl sm:p-10">
-  <p className="text-xs font-semibold uppercase tracking-[0.28em] text-amber-300">
-    Product catalog
-  </p>
+        <div className="glass-hero rounded-[2.5rem] p-8 text-slate-950 sm:p-10">
+          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-amber-600">
+            Product catalog
+          </p>
 
-  <div className="mt-4 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-    <div>
-      <h1 className="max-w-3xl text-4xl font-semibold leading-tight sm:text-5xl">
-        Browse products, compare prices, and explore every category.
-      </h1>
+          <div className="mt-4 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+            <div>
+              <h1 className="max-w-3xl text-4xl font-semibold leading-tight sm:text-5xl">
+                Browse products, compare prices, and explore every category.
+              </h1>
 
-      <p className="mt-4 max-w-2xl text-base leading-8 text-slate-300">
-        Discover products in a clean responsive catalog. Use search to find
-        items quickly, filter by category, and open any product to view its full
-        details, image, price, and description.
-      </p>
-    </div>
+              <p className="mt-4 max-w-2xl text-base leading-8 text-slate-700">
+                Discover products in a clean responsive catalog. Use search to
+                find items quickly, filter by category, and open any product to
+                view its full details, image, price, and description.
+              </p>
+            </div>
 
-    <div className="grid gap-3 text-sm text-slate-300 sm:grid-cols-3">
-      <div className="rounded-2xl bg-white/10 p-4">
-        <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
-          Catalog status
-        </p>
-        <p className="mt-2 font-semibold capitalize">{listStatus}</p>
-      </div>
+            <div className="grid gap-3 text-sm text-slate-700 sm:grid-cols-3">
+              <div className="glass-stat rounded-2xl p-4">
+                <p className="text-xs uppercase tracking-[0.2em] text-slate-500">
+                  Catalog status
+                </p>
+                <p className="mt-2 font-semibold capitalize">{listStatus}</p>
+              </div>
 
-      <div className="rounded-2xl bg-white/10 p-4">
-        <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
-          Showing
-        </p>
-        <p className="mt-2 font-semibold">
-          {items.length} products
-        </p>
-      </div>
+              <div className="glass-stat rounded-2xl p-4">
+                <p className="text-xs uppercase tracking-[0.2em] text-slate-500">
+                  Showing
+                </p>
+                <p className="mt-2 font-semibold">{items.length} products</p>
+              </div>
 
-      <div className="rounded-2xl bg-white/10 p-4">
-        <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
-          Current view
-        </p>
-        <p className="mt-2 font-semibold">
-          {searchQuery
-            ? `Search: ${searchQuery}`
-            : selectedCategoryName ?? "All products"}
-        </p>
-      </div>
-    </div>
-  </div>
-</div>
+              <div className="glass-stat rounded-2xl p-4">
+                <p className="text-xs uppercase tracking-[0.2em] text-slate-500">
+                  Current view
+                </p>
+                <p className="mt-2 font-semibold">
+                  {searchQuery
+                    ? `Search: ${searchQuery}`
+                    : selectedCategoryName ?? "All products"}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
 
         <div className="flex flex-col justify-between">
           <SearchBar
@@ -197,7 +195,7 @@ export default function ProductsPageClient() {
         ) : null}
 
         {listStatus !== "loading" && items.length === 0 && !error ? (
-          <div className="rounded-[2.5rem] border border-dashed border-black/15 bg-white/80 p-10 text-center shadow-sm">
+          <div className="glass-panel rounded-[2.5rem] border-dashed p-10 text-center">
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">
               Empty state
             </p>

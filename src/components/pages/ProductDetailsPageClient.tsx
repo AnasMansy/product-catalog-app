@@ -86,7 +86,7 @@ function ProductImageGallery({
 
   return (
     <>
-      <div className="overflow-hidden rounded-[2.5rem] border border-black/10 bg-white/90 shadow-xl">
+      <div className="glass-panel rounded-[2.5rem] shadow-xl">
         <button
           type="button"
           onClick={() => setIsZoomOpen(true)}
@@ -270,7 +270,7 @@ export default function ProductDetailsPageClient({
     );
   } else if (!selectedProduct) {
     content = (
-      <div className="rounded-[2.5rem] border border-dashed border-black/15 bg-white/80 p-10 text-center shadow-sm">
+      <div className="glass-panel rounded-[2.5rem] border-dashed p-10 text-center">
         <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">
           Empty state
         </p>
@@ -288,11 +288,11 @@ export default function ProductDetailsPageClient({
         <div className="flex items-center justify-between gap-4">
           <Link
             href="/products"
-            className="rounded-full border border-black/10 bg-white/80 px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-white"
+            className="glass-stat rounded-full px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-white/70"
           >
             Back to products
           </Link>
-          <span className="rounded-full bg-teal-50 px-4 py-2 text-sm font-semibold text-teal-700">
+          <span className="glass-stat rounded-full px-4 py-2 text-sm font-semibold text-teal-700">
             {selectedProduct.category.replaceAll("-", " ")}
           </span>
         </div>
@@ -306,44 +306,44 @@ export default function ProductDetailsPageClient({
             images={selectedProduct.images}
           />
 
-          <div className="rounded-[2.5rem] border border-black/10 bg-slate-950 p-8 text-white shadow-xl sm:p-10">
-            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-amber-300">
+          <div className="glass-hero rounded-[2.5rem] p-8 text-slate-950 sm:p-10">
+            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-amber-600">
               Product details
             </p>
             <h1 className="mt-4 text-4xl font-semibold leading-tight">
               {selectedProduct.title}
             </h1>
-            <p className="mt-5 text-base leading-8 text-slate-300">
+            <p className="mt-5 text-base leading-8 text-slate-700">
               {selectedProduct.description}
             </p>
 
             <div className="mt-8 grid gap-3 sm:grid-cols-2">
-              <div className="rounded-2xl bg-white/10 p-4">
-                <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
+              <div className="glass-stat rounded-2xl p-4">
+                <p className="text-xs uppercase tracking-[0.2em] text-slate-500">
                   Price
                 </p>
                 <p className="mt-2 text-2xl font-semibold">
                   ${selectedProduct.price.toFixed(2)}
                 </p>
               </div>
-              <div className="rounded-2xl bg-white/10 p-4">
-                <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
+              <div className="glass-stat rounded-2xl p-4">
+                <p className="text-xs uppercase tracking-[0.2em] text-slate-500">
                   Rating
                 </p>
                 <p className="mt-2 text-2xl font-semibold">
                   {selectedProduct.rating.toFixed(1)}
                 </p>
               </div>
-              <div className="rounded-2xl bg-white/10 p-4">
-                <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
+              <div className="glass-stat rounded-2xl p-4">
+                <p className="text-xs uppercase tracking-[0.2em] text-slate-500">
                   Brand
                 </p>
                 <p className="mt-2 text-lg font-semibold">
                   {selectedProduct.brand ?? "Independent label"}
                 </p>
               </div>
-              <div className="rounded-2xl bg-white/10 p-4">
-                <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
+              <div className="glass-stat rounded-2xl p-4">
+                <p className="text-xs uppercase tracking-[0.2em] text-slate-500">
                   Stock
                 </p>
                 <p className="mt-2 text-lg font-semibold">
@@ -352,21 +352,21 @@ export default function ProductDetailsPageClient({
               </div>
             </div>
 
-            <dl className="mt-8 space-y-4 text-sm text-slate-300">
-              <div className="flex items-start justify-between gap-4 border-b border-white/10 pb-4">
-                <dt className="font-semibold text-white">Availability</dt>
+            <dl className="mt-8 space-y-4 text-sm text-slate-700">
+              <div className="flex items-start justify-between gap-4 border-b border-black/10 pb-4">
+                <dt className="font-semibold text-slate-950">Availability</dt>
                 <dd>{selectedProduct.availabilityStatus ?? "Available"}</dd>
               </div>
-              <div className="flex items-start justify-between gap-4 border-b border-white/10 pb-4">
-                <dt className="font-semibold text-white">Warranty</dt>
+              <div className="flex items-start justify-between gap-4 border-b border-black/10 pb-4">
+                <dt className="font-semibold text-slate-950">Warranty</dt>
                 <dd>{selectedProduct.warrantyInformation ?? "Not provided"}</dd>
               </div>
-              <div className="flex items-start justify-between gap-4 border-b border-white/10 pb-4">
-                <dt className="font-semibold text-white">Shipping</dt>
+              <div className="flex items-start justify-between gap-4 border-b border-black/10 pb-4">
+                <dt className="font-semibold text-slate-950">Shipping</dt>
                 <dd>{selectedProduct.shippingInformation ?? "Standard"}</dd>
               </div>
               <div className="flex items-start justify-between gap-4">
-                <dt className="font-semibold text-white">Tags</dt>
+                <dt className="font-semibold text-slate-950">Tags</dt>
                 <dd className="text-right">
                   {selectedProduct.tags.length > 0
                     ? selectedProduct.tags.join(", ")

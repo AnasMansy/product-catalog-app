@@ -29,6 +29,13 @@ npm run build
 - Native `fetch`
 - DummyJSON API
 
+## Environment Variables
+
+- The project uses DummyJSON as a public API for products and real login/token requests.
+- `NEXT_PUBLIC_API_BASE_URL` is a public client-side variable and is safe to expose.
+- Copy `.env.example` to `.env.local` when you want to override the default configuration locally.
+- Vercel users can add `NEXT_PUBLIC_API_BASE_URL` in `Project Settings -> Environment Variables`, or rely on the built-in fallback if it is not set.
+
 ## Live Demo Link
 
 - Not deployed yet.

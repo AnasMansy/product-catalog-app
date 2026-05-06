@@ -1,7 +1,9 @@
 import type { AuthResponse, LoginCredentials } from "@/types/auth";
 import type { Category, Product, ProductsResponse } from "@/types/product";
 
-const API_BASE_URL = "https://dummyjson.com";
+const DEFAULT_API_BASE_URL = "https://dummyjson.com";
+const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_BASE_URL?.trim() || DEFAULT_API_BASE_URL;
 const PUBLIC_REVALIDATE_SECONDS = 300;
 
 type ApiRequestInit = RequestInit & {
@@ -55,8 +57,7 @@ async function request<T>(
       if (payload.message) {
         message = payload.message;
       }
-    } catch {
-      // Ignore JSON parsing issues and fall back to the HTTP status message.
+    } catch { 
     }
 
     throw new Error(message);

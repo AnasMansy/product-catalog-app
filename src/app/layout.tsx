@@ -10,8 +10,12 @@ export const metadata: Metadata = {
     default: "Catalog Pilot",
     template: "%s | Catalog Pilot",
   },
+  applicationName: "Catalog Pilot",
   description:
     "A frontend-only product management starter built with Next.js, Redux Toolkit, TypeScript, Tailwind CSS, and DummyJSON.",
+  authors: [{ name: "Anas" }],
+  creator: "Anas",
+  publisher: "Anas",
 };
 
 export default function RootLayout({

@@ -16,7 +16,7 @@ export default function CategoryFilter({
   onSelectCategory,
 }: CategoryFilterProps) {
   return (
-    <section className="w-full rounded-3xl border border-black/10 bg-white/80 p-4 shadow-sm backdrop-blur sm:p-5 lg:p-6 mt-2">
+    <section className="glass-panel mt-2 w-full rounded-3xl p-4 sm:p-5 lg:p-6">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div className="min-w-0">
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-teal-700 sm:tracking-[0.2em]">
@@ -29,7 +29,7 @@ export default function CategoryFilter({
         </div>
 
         {isLoading ? (
-          <span className="w-fit rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-500">
+          <span className="glass-stat w-fit rounded-full px-3 py-1 text-xs font-medium text-slate-500">
             Loading...
           </span>
         ) : null}
@@ -46,7 +46,7 @@ export default function CategoryFilter({
               "focus:outline-none focus:ring-2 focus:ring-slate-900/20 focus:ring-offset-2",
               selectedCategory === null
                 ? "bg-slate-900 text-white shadow-sm"
-                : "bg-slate-100 text-slate-700 hover:bg-slate-200",
+                : "bg-white/65 text-slate-700 hover:bg-white/85",
             ].join(" ")}
           >
             All products
@@ -66,7 +66,7 @@ export default function CategoryFilter({
                   "focus:outline-none focus:ring-2 focus:ring-teal-600/20 focus:ring-offset-2",
                   isActive
                     ? "bg-teal-600 text-white shadow-sm"
-                    : "bg-amber-50 text-slate-700 hover:bg-amber-100",
+                    : "bg-amber-50/85 text-slate-700 hover:bg-amber-100",
                 ].join(" ")}
               >
                 {category.name}

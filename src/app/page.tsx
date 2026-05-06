@@ -3,8 +3,8 @@ import Link from "next/link";
 export default function HomePage() {
   return (
     <section className="space-y-10">
-      <div className="rounded-[2.75rem] border border-black/10 bg-slate-950 p-8 text-white shadow-xl sm:p-10 lg:p-12">
-        <p className="text-xs font-semibold uppercase tracking-[0.32em] text-amber-300">
+      <div className="glass-hero rounded-[2.75rem] p-8 text-slate-950 sm:p-10 lg:p-12">
+        <p className="text-xs font-semibold uppercase tracking-[0.32em] text-teal-700">
           Smart product catalog
         </p>
 
@@ -15,16 +15,16 @@ export default function HomePage() {
               clean catalog.
             </h1>
 
-            <p className="mt-6 max-w-2xl text-base leading-8 text-slate-300">
+            <p className="mt-6 max-w-2xl text-base leading-8 text-slate-700">
               Browse a responsive product collection with real product data,
               search by title, filter by category, and open detailed product
               pages with images, prices, descriptions, and category information.
             </p>
           </div>
 
-          <div className="grid gap-3 text-sm text-slate-300">
-            <div className="rounded-2xl bg-white/10 p-4">
-              <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
+          <div className="grid gap-3 text-sm text-slate-700">
+            <div className="glass-stat rounded-2xl p-4">
+              <p className="text-xs uppercase tracking-[0.2em] text-slate-500">
                 Catalog
               </p>
               <p className="mt-2 font-semibold">
@@ -32,11 +32,13 @@ export default function HomePage() {
               </p>
             </div>
 
-            <div className="rounded-2xl bg-white/10 p-4">
-              <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
+            <div className="glass-stat rounded-2xl p-4">
+              <p className="text-xs uppercase tracking-[0.2em] text-slate-500">
                 Access
               </p>
-               
+              <p className="mt-2 font-semibold">
+                Protected routes with real DummyJSON auth and local demo login
+              </p>
             </div>
           </div>
         </div>
@@ -44,11 +46,10 @@ export default function HomePage() {
         <div className="mt-10 flex flex-col gap-4 sm:flex-row">
           <Link
             href="/products"
-            className="rounded-full bg-teal-500 px-6 py-3 text-sm font-semibold text-slate-950 transition hover:bg-teal-400"
+            className="rounded-full bg-amber-200 px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
           >
             Browse products
           </Link>
-
            
         </div>
       </div>
@@ -82,7 +83,7 @@ export default function HomePage() {
         ].map((item) => (
           <article
             key={item.title}
-            className="rounded-[2rem] border border-black/10 bg-white/90 p-6 shadow-sm backdrop-blur"
+            className="glass-panel rounded-[2rem] p-6"
           >
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-teal-700">
               {item.label}
