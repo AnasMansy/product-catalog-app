@@ -1,4 +1,7 @@
- 
+# Product Catalog Starter
+
+Frontend-only product management starter built with Next.js App Router, React, TypeScript, Redux Toolkit, Tailwind CSS, and the DummyJSON public API.
+
 ## Tech Stack
 
 - Next.js 16 with App Router
@@ -10,23 +13,99 @@
 - Native `fetch`
 - DummyJSON API
 
- 
+## Features Included
 
-## Setup
+- Real login against the DummyJSON auth API
+- Client-side demo registration stored in localStorage
+- Token and user persistence in localStorage plus Redux state
+- Protected `/products` and `/products/[id]` routes
+- Product listing, category filtering, search, and product details
+- Loading, error, and empty states
+- Redux-backed caching with a 5-minute cache duration for products and categories
 
-```bash
-npm install
-npm run dev
-```
+## Frontend-Only Notes
 
-Open `http://localhost:3000`.
+- This project does not create a backend, database, or custom auth server.
+- DummyJSON is used for product data and the real login/token API.
+- Registration is implemented as a client-side demo flow because there is no backend or database.
+- The demo registration stores a single demo account in localStorage under `demoUser`.
+- Protected routes require a token. That token can come from:
+  - the real DummyJSON login API, or
+  - the generated local demo token created after a successful demo login
 
-## Useful Commands
+## Authentication and Registration
 
-```bash
-npm run lint
-npm run build
-npm run validate:rtl -- ./path/to/output.docx
+- Real login uses `POST https://dummyjson.com/auth/login`.
+- Successful login stores the access token and user session in localStorage and Redux.
+- Logout clears the stored token and user session.
+- The `/register` page validates:
+  - name
+  - username
+  - email format
+  - password length
+  - password confirmation
+- After demo registration succeeds, the app redirects to `/login` with a success message.
+- Demo login checks the registered local account and generates a fake token in the format `demo-token-{timestamp}`.
+
+## Caching Management
+
+- Redux state is the caching layer for:
+  - product lists
+  - categories
+- Product list cache entries are stored by active query/category key.
+- Categories are reused from Redux state while the cache is fresh.
+- Cache duration is `5 minutes`.
+- Refetching only happens when:
+  - the cache is empty, or
+  - the cached data has expired, or
+  - a forced retry is triggered
+
+## Project Structure
+
+```text
+src/
+  app/
+    layout.tsx
+    loading.tsx
+    error.tsx
+    page.tsx
+    login/
+      page.tsx
+    register/
+      page.tsx
+    products/
+      page.tsx
+      loading.tsx
+      error.tsx
+      [id]/
+        page.tsx
+        loading.tsx
+  components/
+    Navbar.tsx
+    ProductCard.tsx
+    SearchBar.tsx
+    CategoryFilter.tsx
+    LoadingSpinner.tsx
+    ErrorMessage.tsx
+    ProtectedRoute.tsx
+    pages/
+      LoginPageClient.tsx
+      RegisterPageClient.tsx
+      ProductsPageClient.tsx
+      ProductDetailsPageClient.tsx
+  lib/
+    api.ts
+    authStorage.ts
+  store/
+    store.ts
+    hooks.ts
+    provider.tsx
+    slices/
+      authSlice.ts
+      productsSlice.ts
+  types/
+    auth.ts
+    product.ts
 ```
 
 ## API Endpoints Used
@@ -46,18 +125,18 @@ npm run validate:rtl -- ./path/to/output.docx
 - `/products`
 - `/products/[id]`
 
-## Authentication Notes
-
-- This project is frontend-only and does not create a backend.
-- The login screen stores the returned DummyJSON access token in `localStorage`.
-- Route protection is handled on the client through `ProtectedRoute`.
-- The register page is a placeholder because no custom registration backend is part of this starter.
-- The login view is prefilled with the official DummyJSON demo credentials: `emilys` / `emilyspass`.
-
-## Local Run Commands
+## Local Setup
 
 ```bash
 npm install
 npm run dev
 ```
- 
+
+Open `http://localhost:3000`.
+
+## Validation Commands
+
+```bash
+npm run lint
+npm run build
+```
