@@ -2,7 +2,23 @@
 
 Frontend-only product management starter built with Next.js App Router, React, TypeScript, Redux Toolkit, Tailwind CSS, and the DummyJSON public API.
 
-## Tech Stack
+## Setup Instructions
+
+```bash
+npm install
+npm run dev
+```
+
+Open `http://localhost:3000`.
+
+Validation commands:
+
+```bash
+npm run lint
+npm run build
+```
+
+## Tech Stack Used
 
 - Next.js 16 with App Router
 - React 19
@@ -12,6 +28,11 @@ Frontend-only product management starter built with Next.js App Router, React, T
 - Tailwind CSS v4
 - Native `fetch`
 - DummyJSON API
+
+## Live Demo Link
+
+- Not deployed yet.
+- Add your live deployment URL here when available.
 
 ## Features Included
 
@@ -133,18 +154,13 @@ src/
 - `/products`
 - `/products/[id]`
 
-## Local Setup
+## Evaluation Criteria
 
-```bash
-npm install
-npm run dev
-```
+Candidates will be evaluated based on:
 
-Open `http://localhost:3000`.
-
-## Validation Commands
-
-```bash
-npm run lint
-npm run build
-```
+- Code quality
+- Component architecture
+- Responsiveness
+- Performance
+- UX/UI implementation
+- Git practices
