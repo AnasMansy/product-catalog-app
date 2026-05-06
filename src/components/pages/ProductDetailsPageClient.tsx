@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -15,6 +15,208 @@ import {
 
 interface ProductDetailsPageClientProps {
   productId: string;
+}
+
+interface ProductImageGalleryProps {
+  productId: number;
+  productTitle: string;
+  thumbnail: string;
+  images: string[];
+}
+
+const PRODUCT_IMAGE_FALLBACK = "/window.svg";
+const MIN_ZOOM_LEVEL = 1;
+const MAX_ZOOM_LEVEL = 3;
+const ZOOM_STEP = 0.25;
+
+function ProductImageGallery({
+  productId,
+  productTitle,
+  thumbnail,
+  images,
+}: ProductImageGalleryProps) {
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const [isZoomOpen, setIsZoomOpen] = useState(false);
+  const [zoomLevel, setZoomLevel] = useState(MIN_ZOOM_LEVEL);
+  const [failedImages, setFailedImages] = useState<Record<string, boolean>>({});
+
+  useEffect(() => {
+    if (!isZoomOpen) {
+      return;
+    }
+
+    const previousOverflow = document.body.style.overflow;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsZoomOpen(false);
+      }
+    };
+
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isZoomOpen]);
+
+  const handleImageError = (src: string) => {
+    setFailedImages((current) => ({
+      ...current,
+      [src]: true,
+    }));
+  };
+
+  const galleryImages = Array.from(
+    new Set(
+      [thumbnail, ...images].filter(
+        (image): image is string => Boolean(image && !failedImages[image]),
+      ),
+    ),
+  );
+  const safeImageIndex =
+    galleryImages.length === 0
+      ? 0
+      : Math.min(activeImageIndex, galleryImages.length - 1);
+  const activeImage = galleryImages[safeImageIndex] ?? PRODUCT_IMAGE_FALLBACK;
+  const canZoomIn = zoomLevel < MAX_ZOOM_LEVEL;
+  const canZoomOut = zoomLevel > MIN_ZOOM_LEVEL;
+
+  return (
+    <>
+      <div className="overflow-hidden rounded-[2.5rem] border border-black/10 bg-white/90 shadow-xl">
+        <button
+          type="button"
+          onClick={() => setIsZoomOpen(true)}
+          className="group relative block aspect-[4/3] w-full overflow-hidden bg-slate-100 text-left"
+        >
+          <Image
+            src={activeImage}
+            alt={productTitle}
+            fill
+            priority
+            unoptimized
+            sizes="(max-width: 1024px) 100vw, 55vw"
+            className="object-contain p-6 transition duration-300 group-hover:scale-[1.03]"
+            onError={() => handleImageError(activeImage)}
+          />
+          <div className="absolute inset-x-0 bottom-0 flex items-center justify-between bg-gradient-to-t from-slate-950/70 to-transparent px-5 py-4 text-sm text-white">
+            <span className="font-semibold">Click image to zoom</span>
+            <span className="rounded-full bg-white/15 px-3 py-1 text-xs uppercase tracking-[0.16em]">
+              {galleryImages.length} views
+            </span>
+          </div>
+        </button>
+
+        <div className="border-t border-black/5 px-5 py-4">
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">
+            Gallery
+          </p>
+          <p className="mt-2 text-sm text-slate-600">
+            Use the thumbnails to switch images. The main image opens a zoomed
+            preview.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-2 gap-3 p-5 sm:grid-cols-4">
+          {galleryImages.length > 0 ? (
+            galleryImages.slice(0, 8).map((image, index) => (
+              <button
+                key={`${productId}-${image}-${index}`}
+                type="button"
+                onClick={() => setActiveImageIndex(index)}
+                className={[
+                  "relative aspect-square overflow-hidden rounded-2xl border bg-slate-100 transition",
+                  safeImageIndex === index
+                    ? "border-teal-500 ring-2 ring-teal-200"
+                    : "border-black/10 hover:border-teal-300",
+                ].join(" ")}
+              >
+                <Image
+                  src={image}
+                  alt={`${productTitle} preview ${index + 1}`}
+                  fill
+                  unoptimized
+                  sizes="200px"
+                  className="object-contain p-2"
+                  onError={() => handleImageError(image)}
+                />
+              </button>
+            ))
+          ) : (
+            <div className="col-span-full flex aspect-[4/3] items-center justify-center rounded-2xl border border-dashed border-black/10 bg-slate-50 text-sm text-slate-500">
+              Product images are unavailable for this item.
+            </div>
+          )}
+        </div>
+      </div>
+
+      {isZoomOpen ? (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/90 p-4 backdrop-blur-sm">
+          <button
+            type="button"
+            aria-label="Close zoomed image"
+            onClick={() => setIsZoomOpen(false)}
+            className="absolute right-4 top-4 rounded-full bg-white/10 px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/20"
+          >
+            Close
+          </button>
+
+          <div className="absolute left-4 top-4 flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() =>
+                setZoomLevel((current) =>
+                  Math.max(MIN_ZOOM_LEVEL, current - ZOOM_STEP),
+                )
+              }
+              disabled={!canZoomOut}
+              className="rounded-full bg-white/10 px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              Zoom out
+            </button>
+            <button
+              type="button"
+              onClick={() => setZoomLevel(MIN_ZOOM_LEVEL)}
+              className="rounded-full bg-white/10 px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/20"
+            >
+              Reset
+            </button>
+            <button
+              type="button"
+              onClick={() =>
+                setZoomLevel((current) =>
+                  Math.min(MAX_ZOOM_LEVEL, current + ZOOM_STEP),
+                )
+              }
+              disabled={!canZoomIn}
+              className="rounded-full bg-white/10 px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              Zoom in
+            </button>
+          </div>
+
+          <div className="relative flex h-[80vh] w-full max-w-6xl items-center justify-center overflow-hidden rounded-[2rem] bg-white/5">
+            <Image
+              src={activeImage}
+              alt={`${productTitle} zoomed view`}
+              fill
+              unoptimized
+              sizes="100vw"
+              className="object-contain p-6 transition duration-200"
+              style={{
+                transform: `scale(${zoomLevel})`,
+                transformOrigin: "center center",
+              }}
+              onError={() => handleImageError(activeImage)}
+            />
+          </div>
+        </div>
+      ) : null}
+    </>
+  );
 }
 
 export default function ProductDetailsPageClient({
@@ -96,33 +298,13 @@ export default function ProductDetailsPageClient({
         </div>
 
         <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
-          <div className="overflow-hidden rounded-[2.5rem] border border-black/10 bg-white/90 shadow-xl">
-            <div className="relative aspect-[4/3] bg-slate-100">
-              <Image
-                src={selectedProduct.thumbnail || selectedProduct.images[0]}
-                alt={selectedProduct.title}
-                fill
-                sizes="(max-width: 1024px) 100vw, 55vw"
-                className="object-cover"
-              />
-            </div>
-            <div className="grid grid-cols-2 gap-3 p-5 sm:grid-cols-4">
-              {selectedProduct.images.slice(0, 4).map((image, index) => (
-                <div
-                  key={`${selectedProduct.id}-${image}-${index}`}
-                  className="relative aspect-square overflow-hidden rounded-2xl bg-slate-100"
-                >
-                  <Image
-                    src={image}
-                    alt={`${selectedProduct.title} preview ${index + 1}`}
-                    fill
-                    sizes="200px"
-                    className="object-cover"
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
+          <ProductImageGallery
+            key={selectedProduct.id}
+            productId={selectedProduct.id}
+            productTitle={selectedProduct.title}
+            thumbnail={selectedProduct.thumbnail}
+            images={selectedProduct.images}
+          />
 
           <div className="rounded-[2.5rem] border border-black/10 bg-slate-950 p-8 text-white shadow-xl sm:p-10">
             <p className="text-xs font-semibold uppercase tracking-[0.28em] text-amber-300">

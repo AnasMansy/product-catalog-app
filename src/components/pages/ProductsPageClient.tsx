@@ -17,6 +17,7 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
   fetchCategories,
   fetchProducts,
+  PRODUCTS_PAGE_SIZE,
   restoreProductsFromCache,
   setSearchQuery,
   setSelectedCategory,
@@ -31,9 +32,13 @@ export default function ProductsPageClient() {
     categories,
     categoriesStatus,
     error,
+    hasMore,
     items,
     listStatus,
+    loadMoreStatus,
+    nextSkip,
     selectedCategory,
+    total,
   } = useAppSelector((state) => state.products);
 
   useEffect(() => {
@@ -66,6 +71,8 @@ export default function ProductsPageClient() {
       fetchProducts({
         query: searchQuery,
         category: selectedCategory,
+        skip: 0,
+        limit: PRODUCTS_PAGE_SIZE,
       }),
     );
   }, [deferredSearchQuery, dispatch, searchQuery, selectedCategory]);
@@ -88,7 +95,21 @@ export default function ProductsPageClient() {
       fetchProducts({
         query: searchQuery,
         category: selectedCategory,
+        skip: 0,
+        limit: PRODUCTS_PAGE_SIZE,
         force: true,
+      }),
+    );
+  };
+
+  const handleLoadMore = () => {
+    void dispatch(
+      fetchProducts({
+        query: searchQuery,
+        category: selectedCategory,
+        skip: nextSkip,
+        limit: PRODUCTS_PAGE_SIZE,
+        append: true,
       }),
     );
   };
@@ -101,47 +122,55 @@ export default function ProductsPageClient() {
     <ProtectedRoute>
       <section className="space-y-8">
         <div className="rounded-[2.5rem] border border-black/10 bg-slate-950 p-8 text-white shadow-xl sm:p-10">
-          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-amber-300">
-            Product management starter
-          </p>
-          <div className="mt-4 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-            <div>
-              <h1 className="max-w-3xl text-4xl font-semibold leading-tight sm:text-5xl">
-                Search, filter, and inspect a public product catalog.
-              </h1>
-              <p className="mt-4 max-w-2xl text-base leading-8 text-slate-300">
-                Redux Toolkit keeps query state, category state, loading,
-                errors, and product details in one predictable store.
-              </p>
-            </div>
-            <div className="grid gap-3 text-sm text-slate-300 sm:grid-cols-3">
-              <div className="rounded-2xl bg-white/10 p-4">
-                <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
-                  Status
-                </p>
-                <p className="mt-2 font-semibold capitalize">{listStatus}</p>
-              </div>
-              <div className="rounded-2xl bg-white/10 p-4">
-                <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
-                  Products
-                </p>
-                <p className="mt-2 font-semibold">{items.length}</p>
-              </div>
-              <div className="rounded-2xl bg-white/10 p-4">
-                <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
-                  Active filter
-                </p>
-                <p className="mt-2 font-semibold">
-                  {searchQuery
-                    ? `Search: ${searchQuery}`
-                    : selectedCategoryName ?? "All products"}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
+  <p className="text-xs font-semibold uppercase tracking-[0.28em] text-amber-300">
+    Product catalog
+  </p>
 
-        <div className="grid gap-4 lg:grid-cols-[1.3fr_0.9fr]">
+  <div className="mt-4 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+    <div>
+      <h1 className="max-w-3xl text-4xl font-semibold leading-tight sm:text-5xl">
+        Browse products, compare prices, and explore every category.
+      </h1>
+
+      <p className="mt-4 max-w-2xl text-base leading-8 text-slate-300">
+        Discover products in a clean responsive catalog. Use search to find
+        items quickly, filter by category, and open any product to view its full
+        details, image, price, and description.
+      </p>
+    </div>
+
+    <div className="grid gap-3 text-sm text-slate-300 sm:grid-cols-3">
+      <div className="rounded-2xl bg-white/10 p-4">
+        <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
+          Catalog status
+        </p>
+        <p className="mt-2 font-semibold capitalize">{listStatus}</p>
+      </div>
+
+      <div className="rounded-2xl bg-white/10 p-4">
+        <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
+          Showing
+        </p>
+        <p className="mt-2 font-semibold">
+          {items.length} products
+        </p>
+      </div>
+
+      <div className="rounded-2xl bg-white/10 p-4">
+        <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
+          Current view
+        </p>
+        <p className="mt-2 font-semibold">
+          {searchQuery
+            ? `Search: ${searchQuery}`
+            : selectedCategoryName ?? "All products"}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+        <div className="flex flex-col justify-between">
           <SearchBar
             value={draftSearchQuery}
             onValueChange={handleSearchChange}
@@ -183,11 +212,36 @@ export default function ProductsPageClient() {
         ) : null}
 
         {items.length > 0 ? (
-          <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4">
-            {items.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
+          <>
+            <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4">
+              {items.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </div>
+
+            <div className="flex flex-col items-center gap-4 pt-2">
+              <p className="text-sm text-slate-500">
+                Showing {items.length} of {total} products
+              </p>
+
+              {hasMore ? (
+                <button
+                  type="button"
+                  onClick={handleLoadMore}
+                  disabled={loadMoreStatus === "loading"}
+                  className="rounded-full bg-slate-950 px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-slate-400"
+                >
+                  {loadMoreStatus === "loading"
+                    ? "Loading more products..."
+                    : "Load more products"}
+                </button>
+              ) : (
+                <p className="text-sm font-medium text-slate-600">
+                  All available products are loaded.
+                </p>
+              )}
+            </div>
+          </>
         ) : null}
       </section>
     </ProtectedRoute>

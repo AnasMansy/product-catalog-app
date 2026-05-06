@@ -20,6 +20,7 @@ Frontend-only product management starter built with Next.js App Router, React, T
 - Token and user persistence in localStorage plus Redux state
 - Protected `/products` and `/products/[id]` routes
 - Product listing, category filtering, search, and product details
+- Load-more pagination with 12 products per page
 - Loading, error, and empty states
 - Redux-backed caching with a 5-minute cache duration for products and categories
 
@@ -59,6 +60,13 @@ Frontend-only product management starter built with Next.js App Router, React, T
   - the cache is empty, or
   - the cached data has expired, or
   - a forced retry is triggered
+
+## Bonus Feature
+
+- The products page includes optional load-more pagination.
+- The initial request loads 12 products.
+- Each click on `Load more products` fetches the next 12 and appends them to the grid.
+- Search and category filtering reset pagination back to the first page.
 
 ## Project Structure
 

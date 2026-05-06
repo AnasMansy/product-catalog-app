@@ -61,6 +61,8 @@ export interface ProductsResponse {
 
 export interface CachedProductList extends ProductsResponse {
   fetchedAt: number;
+  nextSkip: number;
+  hasMore: boolean;
 }
 
 export interface ProductState {
@@ -76,5 +78,10 @@ export interface ProductState {
   lastLoadedKey: string | null;
   lastFetched: number | null;
   categoriesLastFetched: number | null;
+  total: number;
+  nextSkip: number;
+  hasMore: boolean;
+  pageSize: number;
+  loadMoreStatus: RequestStatus;
   cacheByKey: Record<string, CachedProductList>;
 }

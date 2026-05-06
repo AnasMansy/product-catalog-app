@@ -1,10 +1,14 @@
 'use client';
 
-import { useEffect } from "react";
+import { useEffect, useSyncExternalStore } from "react";
 import { usePathname, useRouter } from "next/navigation";
 
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { useAppSelector } from "@/store/hooks";
+
+function subscribeToClientReady() {
+  return () => undefined;
+}
 
 export default function ProtectedRoute({
   children,
@@ -13,10 +17,15 @@ export default function ProtectedRoute({
 }>) {
   const router = useRouter();
   const pathname = usePathname();
+  const isClient = useSyncExternalStore(
+    subscribeToClientReady,
+    () => true,
+    () => false,
+  );
   const { isHydrated, token } = useAppSelector((state) => state.auth);
 
   useEffect(() => {
-    if (!isHydrated || token) {
+    if (!isClient || !isHydrated || token) {
       return;
     }
 
@@ -25,9 +34,9 @@ export default function ProtectedRoute({
       : "/login";
 
     router.replace(redirectTarget);
-  }, [isHydrated, pathname, router, token]);
+  }, [isClient, isHydrated, pathname, router, token]);
 
-  if (!isHydrated) {
+  if (!isClient || !isHydrated) {
     return <LoadingSpinner label="Restoring your session..." fullscreen />;
   }
 

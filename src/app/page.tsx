@@ -5,76 +5,79 @@ export default function HomePage() {
     <section className="space-y-10">
       <div className="rounded-[2.75rem] border border-black/10 bg-slate-950 p-8 text-white shadow-xl sm:p-10 lg:p-12">
         <p className="text-xs font-semibold uppercase tracking-[0.32em] text-amber-300">
-          Next.js product management starter
+          Smart product catalog
         </p>
+
         <div className="mt-6 grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
           <div>
             <h1 className="max-w-4xl text-4xl font-semibold leading-tight sm:text-5xl lg:text-6xl">
-              A responsive App Router frontend wired for auth, products, and
-              scalable state.
+              Discover products, explore categories, and view details in one
+              clean catalog.
             </h1>
+
             <p className="mt-6 max-w-2xl text-base leading-8 text-slate-300">
-              The starter includes Redux Toolkit slices, a typed DummyJSON API
-              layer, protected catalog routes, Tailwind styling, reusable
-              components, and page-level placeholders you can build on.
+              Browse a responsive product collection with real product data,
+              search by title, filter by category, and open detailed product
+              pages with images, prices, descriptions, and category information.
             </p>
           </div>
+
           <div className="grid gap-3 text-sm text-slate-300">
             <div className="rounded-2xl bg-white/10 p-4">
               <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
-                Stack
+                Catalog
               </p>
               <p className="mt-2 font-semibold">
-                Next.js 16, React 19, TypeScript, Redux Toolkit, Tailwind 4
+                Products, categories, search, filters, and detailed views
               </p>
             </div>
+
             <div className="rounded-2xl bg-white/10 p-4">
               <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
-                Routes
+                Access
               </p>
-              <p className="mt-2 font-semibold">
-                Login, register, products, dynamic product details
-              </p>
+               
             </div>
           </div>
         </div>
+
         <div className="mt-10 flex flex-col gap-4 sm:flex-row">
           <Link
-            href="/login"
+            href="/products"
             className="rounded-full bg-teal-500 px-6 py-3 text-sm font-semibold text-slate-950 transition hover:bg-teal-400"
           >
-            Open login flow
+            Browse products
           </Link>
-          <Link
-            href="/products"
-            className="rounded-full border border-white/15 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
-          >
-            Jump to protected products
-          </Link>
+
+           
         </div>
       </div>
 
       <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
         {[
           {
-            title: "Authentication slice",
+            label: "Catalog browsing",
+            title: "Explore products",
             description:
-              "Handles login, logout, token storage, user profile state, and localStorage hydration.",
+              "View products in a responsive card layout with images, names, prices, and quick access to product details.",
           },
           {
-            title: "Products slice",
+            label: "Search",
+            title: "Find products faster",
             description:
-              "Handles category loading, search state, selected product state, error states, and cache-aware requests.",
+              "Use the search bar to quickly filter products by title and locate the item you are looking for.",
           },
           {
-            title: "Reusable UI",
+            label: "Categories",
+            title: "Filter by category",
             description:
-              "Includes Navbar, SearchBar, CategoryFilter, ProductCard, LoadingSpinner, ErrorMessage, and ProtectedRoute.",
+              "Switch between product categories to narrow the catalog and browse more relevant products.",
           },
           {
-            title: "Frontend-only setup",
+            label: "Details",
+            title: "View full information",
             description:
-              "Consumes the DummyJSON public API directly with no custom backend or API routes required.",
+              "Open any product to see its image, title, description, price, and category in a clean details page.",
           },
         ].map((item) => (
           <article
@@ -82,11 +85,13 @@ export default function HomePage() {
             className="rounded-[2rem] border border-black/10 bg-white/90 p-6 shadow-sm backdrop-blur"
           >
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-teal-700">
-              Starter area
+              {item.label}
             </p>
+
             <h2 className="mt-4 text-2xl font-semibold text-slate-950">
               {item.title}
             </h2>
+
             <p className="mt-3 text-sm leading-7 text-slate-600">
               {item.description}
             </p>

@@ -11,6 +11,11 @@ type ApiRequestInit = RequestInit & {
   };
 };
 
+interface ProductListQuery {
+  limit?: number;
+  skip?: number;
+}
+
 function createHeaders(
   headers?: HeadersInit,
   hasBody?: boolean,
@@ -74,6 +79,25 @@ function buildPublicGetOptions(tags: string[]): ApiRequestInit {
   };
 }
 
+function buildProductListQueryString({
+  limit,
+  skip,
+}: ProductListQuery): string {
+  const params = new URLSearchParams();
+
+  if (typeof limit === "number") {
+    params.set("limit", String(limit));
+  }
+
+  if (typeof skip === "number") {
+    params.set("skip", String(skip));
+  }
+
+  const queryString = params.toString();
+
+  return queryString ? `?${queryString}` : "";
+}
+
 export function loginUser(
   credentials: LoginCredentials,
 ): Promise<AuthResponse> {
@@ -88,17 +112,30 @@ export function loginUser(
   });
 }
 
-export function getProducts(): Promise<ProductsResponse> {
+export function getProducts(query: ProductListQuery = {}): Promise<ProductsResponse> {
+  const queryString = buildProductListQueryString(query);
+
   return request<ProductsResponse>(
-    "/products?limit=0",
-    buildPublicGetOptions(["products"]),
+    `/products${queryString}`,
+    buildPublicGetOptions([`products${queryString}`]),
   );
 }
 
-export function searchProducts(query: string): Promise<ProductsResponse> {
+export function searchProducts(
+  query: string,
+  pagination: ProductListQuery = {},
+): Promise<ProductsResponse> {
+  const queryString = buildProductListQueryString(pagination);
+
   return request<ProductsResponse>(
-    `/products/search?q=${encodeURIComponent(query)}`,
-    buildPublicGetOptions([`products-search-${query}`]),
+    `/products/search?q=${encodeURIComponent(query)}${
+      queryString ? `&${queryString.slice(1)}` : ""
+    }`,
+    buildPublicGetOptions([
+      `products-search-${query}-${pagination.limit ?? "default"}-${
+        pagination.skip ?? 0
+      }`,
+    ]),
   );
 }
 
@@ -111,10 +148,17 @@ export function getCategories(): Promise<Category[]> {
 
 export function getProductsByCategory(
   category: string,
+  pagination: ProductListQuery = {},
 ): Promise<ProductsResponse> {
+  const queryString = buildProductListQueryString(pagination);
+
   return request<ProductsResponse>(
-    `/products/category/${encodeURIComponent(category)}`,
-    buildPublicGetOptions([`products-category-${category}`]),
+    `/products/category/${encodeURIComponent(category)}${queryString}`,
+    buildPublicGetOptions([
+      `products-category-${category}-${pagination.limit ?? "default"}-${
+        pagination.skip ?? 0
+      }`,
+    ]),
   );
 }
 
