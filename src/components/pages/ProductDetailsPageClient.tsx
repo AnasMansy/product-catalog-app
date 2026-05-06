@@ -90,7 +90,7 @@ function ProductImageGallery({
         <button
           type="button"
           onClick={() => setIsZoomOpen(true)}
-          className="group relative block aspect-[4/3] w-full overflow-hidden bg-slate-100 text-left"
+          className="app-image-surface group relative block aspect-[4/3] w-full overflow-hidden text-left"
         >
           <Image
             src={activeImage}
@@ -110,11 +110,11 @@ function ProductImageGallery({
           </div>
         </button>
 
-        <div className="border-t border-black/5 px-5 py-4">
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">
+        <div className="mt-0 border-t border-[color:var(--outline)] px-5 py-4">
+          <p className="theme-muted text-xs font-semibold uppercase tracking-[0.22em]">
             Gallery
           </p>
-          <p className="mt-2 text-sm text-slate-600">
+          <p className="theme-soft mt-2 text-sm">
             Use the thumbnails to switch images. The main image opens a zoomed
             preview.
           </p>
@@ -128,10 +128,10 @@ function ProductImageGallery({
                 type="button"
                 onClick={() => setActiveImageIndex(index)}
                 className={[
-                  "relative aspect-square overflow-hidden rounded-2xl border bg-slate-100 transition",
+                  "app-image-surface relative aspect-square overflow-hidden rounded-2xl border transition",
                   safeImageIndex === index
                     ? "border-teal-500 ring-2 ring-teal-200"
-                    : "border-black/10 hover:border-teal-300",
+                    : "border-[color:var(--outline)] hover:border-teal-300",
                 ].join(" ")}
               >
                 <Image
@@ -146,7 +146,7 @@ function ProductImageGallery({
               </button>
             ))
           ) : (
-            <div className="col-span-full flex aspect-[4/3] items-center justify-center rounded-2xl border border-dashed border-black/10 bg-slate-50 text-sm text-slate-500">
+            <div className="app-empty theme-muted col-span-full flex aspect-[4/3] items-center justify-center rounded-2xl text-sm">
               Product images are unavailable for this item.
             </div>
           )}
@@ -270,14 +270,14 @@ export default function ProductDetailsPageClient({
     );
   } else if (!selectedProduct) {
     content = (
-      <div className="glass-panel rounded-[2.5rem] border-dashed p-10 text-center">
-        <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">
+      <div className="app-empty rounded-[2.5rem] p-10 text-center">
+        <p className="theme-muted text-xs font-semibold uppercase tracking-[0.24em]">
           Empty state
         </p>
-        <h2 className="mt-4 text-2xl font-semibold text-slate-950">
+        <h2 className="theme-foreground mt-4 text-2xl font-semibold">
           Product details are not available yet.
         </h2>
-        <p className="mt-3 text-sm leading-7 text-slate-600">
+        <p className="theme-soft mt-3 text-sm leading-7">
           Try loading the item again or go back to the product grid.
         </p>
       </div>
@@ -288,11 +288,11 @@ export default function ProductDetailsPageClient({
         <div className="flex items-center justify-between gap-4">
           <Link
             href="/products"
-            className="glass-stat rounded-full px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-white/70"
+            className="glass-stat theme-soft rounded-full px-4 py-2 text-sm font-semibold transition hover:brightness-105"
           >
             Back to products
           </Link>
-          <span className="glass-stat rounded-full px-4 py-2 text-sm font-semibold text-teal-700">
+          <span className="app-accent-chip rounded-full px-4 py-2 text-sm font-semibold">
             {selectedProduct.category.replaceAll("-", " ")}
           </span>
         </div>
@@ -306,20 +306,20 @@ export default function ProductDetailsPageClient({
             images={selectedProduct.images}
           />
 
-          <div className="glass-hero rounded-[2.5rem] p-8 text-slate-950 sm:p-10">
-            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-amber-600">
+          <div className="glass-hero theme-foreground rounded-[2.5rem] p-8 sm:p-10">
+            <p className="app-warm-text text-xs font-semibold uppercase tracking-[0.28em]">
               Product details
             </p>
             <h1 className="mt-4 text-4xl font-semibold leading-tight">
               {selectedProduct.title}
             </h1>
-            <p className="mt-5 text-base leading-8 text-slate-700">
+            <p className="theme-soft mt-5 text-base leading-8">
               {selectedProduct.description}
             </p>
 
             <div className="mt-8 grid gap-3 sm:grid-cols-2">
               <div className="glass-stat rounded-2xl p-4">
-                <p className="text-xs uppercase tracking-[0.2em] text-slate-500">
+                <p className="theme-muted text-xs uppercase tracking-[0.2em]">
                   Price
                 </p>
                 <p className="mt-2 text-2xl font-semibold">
@@ -327,7 +327,7 @@ export default function ProductDetailsPageClient({
                 </p>
               </div>
               <div className="glass-stat rounded-2xl p-4">
-                <p className="text-xs uppercase tracking-[0.2em] text-slate-500">
+                <p className="theme-muted text-xs uppercase tracking-[0.2em]">
                   Rating
                 </p>
                 <p className="mt-2 text-2xl font-semibold">
@@ -335,7 +335,7 @@ export default function ProductDetailsPageClient({
                 </p>
               </div>
               <div className="glass-stat rounded-2xl p-4">
-                <p className="text-xs uppercase tracking-[0.2em] text-slate-500">
+                <p className="theme-muted text-xs uppercase tracking-[0.2em]">
                   Brand
                 </p>
                 <p className="mt-2 text-lg font-semibold">
@@ -343,7 +343,7 @@ export default function ProductDetailsPageClient({
                 </p>
               </div>
               <div className="glass-stat rounded-2xl p-4">
-                <p className="text-xs uppercase tracking-[0.2em] text-slate-500">
+                <p className="theme-muted text-xs uppercase tracking-[0.2em]">
                   Stock
                 </p>
                 <p className="mt-2 text-lg font-semibold">
@@ -352,21 +352,21 @@ export default function ProductDetailsPageClient({
               </div>
             </div>
 
-            <dl className="mt-8 space-y-4 text-sm text-slate-700">
-              <div className="flex items-start justify-between gap-4 border-b border-black/10 pb-4">
-                <dt className="font-semibold text-slate-950">Availability</dt>
+            <dl className="theme-soft mt-8 space-y-4 text-sm">
+              <div className="flex items-start justify-between gap-4 border-b border-[color:var(--outline)] pb-4">
+                <dt className="theme-foreground font-semibold">Availability</dt>
                 <dd>{selectedProduct.availabilityStatus ?? "Available"}</dd>
               </div>
-              <div className="flex items-start justify-between gap-4 border-b border-black/10 pb-4">
-                <dt className="font-semibold text-slate-950">Warranty</dt>
+              <div className="flex items-start justify-between gap-4 border-b border-[color:var(--outline)] pb-4">
+                <dt className="theme-foreground font-semibold">Warranty</dt>
                 <dd>{selectedProduct.warrantyInformation ?? "Not provided"}</dd>
               </div>
-              <div className="flex items-start justify-between gap-4 border-b border-black/10 pb-4">
-                <dt className="font-semibold text-slate-950">Shipping</dt>
+              <div className="flex items-start justify-between gap-4 border-b border-[color:var(--outline)] pb-4">
+                <dt className="theme-foreground font-semibold">Shipping</dt>
                 <dd>{selectedProduct.shippingInformation ?? "Standard"}</dd>
               </div>
               <div className="flex items-start justify-between gap-4">
-                <dt className="font-semibold text-slate-950">Tags</dt>
+                <dt className="theme-foreground font-semibold">Tags</dt>
                 <dd className="text-right">
                   {selectedProduct.tags.length > 0
                     ? selectedProduct.tags.join(", ")

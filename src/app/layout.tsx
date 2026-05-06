@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import Navbar from "@/components/Navbar";
+import { getThemeInitializationScript } from "@/lib/theme";
 import StoreProvider from "@/store/provider";
 
 import "./globals.css";
@@ -24,8 +25,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="theme-light" suppressHydrationWarning>
       <body className="min-h-screen text-foreground antialiased">
+        <script
+          dangerouslySetInnerHTML={{
+            __html: getThemeInitializationScript(),
+          }}
+        />
         <StoreProvider>
           <div className="min-h-screen">
             <Navbar />

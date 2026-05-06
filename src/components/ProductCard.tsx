@@ -15,7 +15,7 @@ export default function ProductCard({ product }: ProductCardProps) {
       href={`/products/${product.id}`}
       className="glass-panel group flex h-full flex-col overflow-hidden rounded-[2rem] transition duration-300 hover:-translate-y-1 hover:shadow-xl"
     >
-      <div className="relative aspect-[4/3] overflow-hidden bg-slate-100">
+      <div className="app-image-surface relative aspect-[4/3] overflow-hidden">
         <Image
           src={heroImage}
           alt={product.title}
@@ -23,23 +23,23 @@ export default function ProductCard({ product }: ProductCardProps) {
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
           className="object-cover transition duration-500 group-hover:scale-105"
         />
-        <div className="glass-stat absolute left-4 top-4 rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.15em] text-slate-700">
+        <div className="glass-stat theme-soft absolute left-4 top-4 rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.15em]">
           {product.category.replaceAll("-", " ")}
         </div>
       </div>
       <div className="flex flex-1 flex-col p-5">
         <div className="flex items-start justify-between gap-4">
-          <h3 className="text-lg font-semibold leading-7 text-slate-900">
+          <h3 className="theme-foreground text-lg font-semibold leading-7">
             {product.title}
           </h3>
-          <span className="rounded-full bg-teal-50 px-3 py-1 text-sm font-semibold text-teal-700">
+          <span className="app-accent-chip rounded-full px-3 py-1 text-sm font-semibold">
             ${product.price.toFixed(2)}
           </span>
         </div>
-        <p className="mt-3 line-clamp-3 text-sm leading-7 text-slate-600">
+        <p className="theme-soft mt-3 line-clamp-3 text-sm leading-7">
           {product.description}
         </p>
-        <div className="mt-5 flex items-center justify-between gap-3 text-sm text-slate-500">
+        <div className="theme-muted mt-5 flex items-center justify-between gap-3 text-sm">
           <span>{product.brand ?? "Independent label"}</span>
           <span>
             {product.rating.toFixed(1)} rating • {product.stock} in stock

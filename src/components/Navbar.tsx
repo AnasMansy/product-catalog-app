@@ -9,6 +9,7 @@ import {
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
+import ThemeToggle from "@/components/ThemeToggle";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { logoutAndClearSession } from "@/store/slices/authSlice";
 import type { User } from "@/types/auth";
@@ -90,27 +91,27 @@ function AuthenticatedUserMenu({
           setIsAccountDropdownOpen((currentValue) => !currentValue);
         }}
         className={[
-          "flex items-center gap-3 rounded-full border px-3 py-2 text-left transition",
+          "glass-stat flex items-center gap-3 rounded-full px-3 py-2 text-left transition",
           isAccountDropdownOpen
-            ? "border-teal-300 bg-teal-50 text-slate-950"
-            : "border-amber-200 bg-amber-50 text-slate-700 hover:border-amber-300 hover:bg-amber-100",
+            ? "ring-2 ring-teal-500/30 theme-foreground"
+            : "theme-soft hover:brightness-105",
         ].join(" ")}
       >
-        <span className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-900 text-xs font-bold uppercase tracking-[0.18em] text-white">
+        <span className="flex h-9 w-9 items-center justify-center rounded-full bg-teal-700 text-xs font-bold uppercase tracking-[0.18em] text-white">
           {userInitials}
         </span>
         <span className="hidden min-w-0 sm:block">
-          <span className="block max-w-40 truncate text-sm font-semibold">
+          <span className="theme-foreground block max-w-40 truncate text-sm font-semibold">
             {displayName}
           </span>
-          <span className="block max-w-40 truncate text-xs text-slate-500">
+          <span className="theme-muted block max-w-40 truncate text-xs">
             @{user.username}
           </span>
         </span>
         <span
           aria-hidden="true"
           className={[
-            "text-xs text-slate-500 transition",
+            "theme-muted text-xs transition",
             isAccountDropdownOpen ? "rotate-180" : "",
           ].join(" ")}
         >
@@ -121,23 +122,23 @@ function AuthenticatedUserMenu({
       {isAccountDropdownOpen ? (
         <div
           id="account-dropdown"
-          className="absolute right-0 top-[calc(100%+0.75rem)] w-72 rounded-[1.5rem] border border-black/10 bg-white p-4 shadow-[0_20px_60px_rgba(15,23,42,0.16)]"
+          className="app-dropdown absolute right-0 top-[calc(100%+0.75rem)] w-72 rounded-[1.5rem] p-4"
         >
-          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-teal-700">
+          <p className="app-accent-text text-xs font-semibold uppercase tracking-[0.24em]">
             Signed in
           </p>
-          <div className="mt-3 flex items-start gap-3 rounded-[1.25rem] bg-slate-50 p-3">
-            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-slate-900 text-sm font-bold uppercase tracking-[0.16em] text-white">
+          <div className="app-subtle-surface mt-3 flex items-start gap-3 rounded-[1.25rem] p-3">
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-teal-700 text-sm font-bold uppercase tracking-[0.16em] text-white">
               {userInitials}
             </div>
             <div className="min-w-0 space-y-1">
-              <p className="truncate text-sm font-semibold text-slate-950">
+              <p className="theme-foreground truncate text-sm font-semibold">
                 {displayName}
               </p>
-              <p className="truncate text-sm text-slate-600">
+              <p className="theme-soft truncate text-sm">
                 @{user.username}
               </p>
-              <p className="truncate text-sm text-slate-500">
+              <p className="theme-muted truncate text-sm">
                 {user.email}
               </p>
             </div>
@@ -146,7 +147,7 @@ function AuthenticatedUserMenu({
           <button
             type="button"
             onClick={onLogout}
-            className="mt-4 w-full rounded-full bg-rose-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-rose-700"
+            className="app-danger-button mt-4 w-full rounded-full px-4 py-3 text-sm font-semibold transition"
           >
             Logout
           </button>
@@ -181,13 +182,13 @@ export default function Navbar() {
   };
 
   return (
-    <header className="sticky top-0 z-40 border-b border-black/5 bg-white/85 backdrop-blur-xl">
+    <header className="app-nav sticky top-0 z-40">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
         <Link href="/" className="min-w-0">
-          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-teal-700">
+          <p className="app-accent-text text-xs font-semibold uppercase tracking-[0.28em]">
             Product Starter
           </p>
-          <p className="truncate text-lg font-semibold text-slate-950">
+          <p className="theme-foreground truncate text-lg font-semibold">
             Catalog Pilot
           </p>
         </Link>
@@ -200,8 +201,8 @@ export default function Navbar() {
               className={[
                 "rounded-full px-4 py-2 text-sm font-semibold transition",
                 isActive(pathname, item.href)
-                  ? "bg-amber-200  text-cyan-100"
-                  : "  hover:bg-slate-100 ",
+                  ? "app-nav-link-active"
+                  : "app-nav-link-inactive",
               ].join(" ")}
             >
               {item.label}
@@ -210,8 +211,9 @@ export default function Navbar() {
         </nav>
 
         <div className="flex items-center gap-3">
+          <ThemeToggle />
           {!isHydrated ? (
-            <span className="rounded-full bg-slate-100 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+            <span className="glass-stat rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] theme-muted">
               Syncing session
             </span>
           ) : token && user ? (
@@ -223,7 +225,7 @@ export default function Navbar() {
           ) : (
             <Link
               href="/login"
-              className="rounded-full bg-teal-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-teal-700"
+              className="app-primary-button rounded-full px-4 py-2 text-sm font-semibold transition"
             >
               Open demo
             </Link>

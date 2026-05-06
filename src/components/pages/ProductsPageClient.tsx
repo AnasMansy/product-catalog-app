@@ -121,8 +121,8 @@ export default function ProductsPageClient() {
   return (
     <ProtectedRoute>
       <section className="space-y-8">
-        <div className="glass-hero rounded-[2.5rem] p-8 text-slate-950 sm:p-10">
-          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-amber-600">
+        <div className="glass-hero theme-foreground rounded-[2.5rem] p-8 sm:p-10">
+          <p className="app-warm-text text-xs font-semibold uppercase tracking-[0.28em]">
             Product catalog
           </p>
 
@@ -132,30 +132,30 @@ export default function ProductsPageClient() {
                 Browse products, compare prices, and explore every category.
               </h1>
 
-              <p className="mt-4 max-w-2xl text-base leading-8 text-slate-700">
+              <p className="theme-soft mt-4 max-w-2xl text-base leading-8">
                 Discover products in a clean responsive catalog. Use search to
                 find items quickly, filter by category, and open any product to
                 view its full details, image, price, and description.
               </p>
             </div>
 
-            <div className="grid gap-3 text-sm text-slate-700 sm:grid-cols-3">
+            <div className="theme-soft grid gap-3 text-sm sm:grid-cols-3">
               <div className="glass-stat rounded-2xl p-4">
-                <p className="text-xs uppercase tracking-[0.2em] text-slate-500">
+                <p className="theme-muted text-xs uppercase tracking-[0.2em]">
                   Catalog status
                 </p>
                 <p className="mt-2 font-semibold capitalize">{listStatus}</p>
               </div>
 
               <div className="glass-stat rounded-2xl p-4">
-                <p className="text-xs uppercase tracking-[0.2em] text-slate-500">
+                <p className="theme-muted text-xs uppercase tracking-[0.2em]">
                   Showing
                 </p>
                 <p className="mt-2 font-semibold">{items.length} products</p>
               </div>
 
               <div className="glass-stat rounded-2xl p-4">
-                <p className="text-xs uppercase tracking-[0.2em] text-slate-500">
+                <p className="theme-muted text-xs uppercase tracking-[0.2em]">
                   Current view
                 </p>
                 <p className="mt-2 font-semibold">
@@ -195,14 +195,14 @@ export default function ProductsPageClient() {
         ) : null}
 
         {listStatus !== "loading" && items.length === 0 && !error ? (
-          <div className="glass-panel rounded-[2.5rem] border-dashed p-10 text-center">
-            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">
+          <div className="app-empty rounded-[2.5rem] p-10 text-center">
+            <p className="theme-muted text-xs font-semibold uppercase tracking-[0.24em]">
               Empty state
             </p>
-            <h2 className="mt-4 text-2xl font-semibold text-slate-950">
+            <h2 className="theme-foreground mt-4 text-2xl font-semibold">
               No products matched this filter.
             </h2>
-            <p className="mt-3 text-sm leading-7 text-slate-600">
+            <p className="theme-soft mt-3 text-sm leading-7">
               Clear the search box or switch back to all products to repopulate
               the grid.
             </p>
@@ -218,7 +218,7 @@ export default function ProductsPageClient() {
             </div>
 
             <div className="flex flex-col items-center gap-4 pt-2">
-              <p className="text-sm text-slate-500">
+              <p className="theme-muted text-sm">
                 Showing {items.length} of {total} products
               </p>
 
@@ -227,14 +227,14 @@ export default function ProductsPageClient() {
                   type="button"
                   onClick={handleLoadMore}
                   disabled={loadMoreStatus === "loading"}
-                  className="rounded-full bg-slate-950 px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-slate-400"
+                  className="app-contrast-button rounded-full px-6 py-3 text-sm font-semibold transition disabled:cursor-not-allowed disabled:bg-slate-400 disabled:text-white"
                 >
                   {loadMoreStatus === "loading"
                     ? "Loading more products..."
                     : "Load more products"}
                 </button>
               ) : (
-                <p className="text-sm font-medium text-slate-600">
+                <p className="theme-soft text-sm font-medium">
                   All available products are loaded.
                 </p>
               )}

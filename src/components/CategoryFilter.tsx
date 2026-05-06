@@ -19,17 +19,17 @@ export default function CategoryFilter({
     <section className="glass-panel mt-2 w-full rounded-3xl p-4 sm:p-5 lg:p-6">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div className="min-w-0">
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-teal-700 sm:tracking-[0.2em]">
+          <p className="app-accent-text text-xs font-semibold uppercase tracking-[0.18em] sm:tracking-[0.2em]">
             Browse by category
           </p>
 
-          <p className="mt-1 max-w-2xl text-sm leading-6 text-slate-600">
+          <p className="theme-soft mt-1 max-w-2xl text-sm leading-6">
             Switch between the full catalog and category-specific lists.
           </p>
         </div>
 
         {isLoading ? (
-          <span className="glass-stat w-fit rounded-full px-3 py-1 text-xs font-medium text-slate-500">
+          <span className="glass-stat theme-muted w-fit rounded-full px-3 py-1 text-xs font-medium">
             Loading...
           </span>
         ) : null}
@@ -45,8 +45,8 @@ export default function CategoryFilter({
               "shrink-0 rounded-full px-4 py-2 text-sm font-semibold transition",
               "focus:outline-none focus:ring-2 focus:ring-slate-900/20 focus:ring-offset-2",
               selectedCategory === null
-                ? "bg-slate-900 text-white shadow-sm"
-                : "bg-white/65 text-slate-700 hover:bg-white/85",
+                ? "app-contrast-button shadow-sm"
+                : "glass-stat theme-soft hover:brightness-105",
             ].join(" ")}
           >
             All products
@@ -66,7 +66,7 @@ export default function CategoryFilter({
                   "focus:outline-none focus:ring-2 focus:ring-teal-600/20 focus:ring-offset-2",
                   isActive
                     ? "bg-teal-600 text-white shadow-sm"
-                    : "bg-amber-50/85 text-slate-700 hover:bg-amber-100",
+                    : "glass-stat theme-soft hover:brightness-105",
                 ].join(" ")}
               >
                 {category.name}

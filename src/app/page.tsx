@@ -3,8 +3,8 @@ import Link from "next/link";
 export default function HomePage() {
   return (
     <section className="space-y-10">
-      <div className="glass-hero rounded-[2.75rem] p-8 text-slate-950 sm:p-10 lg:p-12">
-        <p className="text-xs font-semibold uppercase tracking-[0.32em] text-teal-700">
+      <div className="glass-hero theme-foreground rounded-[2.75rem] p-8 sm:p-10 lg:p-12">
+        <p className="app-accent-text text-xs font-semibold uppercase tracking-[0.32em]">
           Smart product catalog
         </p>
 
@@ -15,16 +15,16 @@ export default function HomePage() {
               clean catalog.
             </h1>
 
-            <p className="mt-6 max-w-2xl text-base leading-8 text-slate-700">
+            <p className="theme-soft mt-6 max-w-2xl text-base leading-8">
               Browse a responsive product collection with real product data,
               search by title, filter by category, and open detailed product
               pages with images, prices, descriptions, and category information.
             </p>
           </div>
 
-          <div className="grid gap-3 text-sm text-slate-700">
+          <div className="theme-soft grid gap-3 text-sm">
             <div className="glass-stat rounded-2xl p-4">
-              <p className="text-xs uppercase tracking-[0.2em] text-slate-500">
+              <p className="theme-muted text-xs uppercase tracking-[0.2em]">
                 Catalog
               </p>
               <p className="mt-2 font-semibold">
@@ -33,7 +33,7 @@ export default function HomePage() {
             </div>
 
             <div className="glass-stat rounded-2xl p-4">
-              <p className="text-xs uppercase tracking-[0.2em] text-slate-500">
+              <p className="theme-muted text-xs uppercase tracking-[0.2em]">
                 Access
               </p>
               <p className="mt-2 font-semibold">
@@ -46,7 +46,7 @@ export default function HomePage() {
         <div className="mt-10 flex flex-col gap-4 sm:flex-row">
           <Link
             href="/products"
-            className="rounded-full bg-amber-200 px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
+            className="app-contrast-button rounded-full px-6 py-3 text-sm font-semibold transition"
           >
             Browse products
           </Link>
@@ -85,15 +85,15 @@ export default function HomePage() {
             key={item.title}
             className="glass-panel rounded-[2rem] p-6"
           >
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-teal-700">
+            <p className="app-accent-text text-xs font-semibold uppercase tracking-[0.22em]">
               {item.label}
             </p>
 
-            <h2 className="mt-4 text-2xl font-semibold text-slate-950">
+            <h2 className="theme-foreground mt-4 text-2xl font-semibold">
               {item.title}
             </h2>
 
-            <p className="mt-3 text-sm leading-7 text-slate-600">
+            <p className="theme-soft mt-3 text-sm leading-7">
               {item.description}
             </p>
           </article>

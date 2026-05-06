@@ -73,16 +73,16 @@ export default function LoginPageClient() {
 
   return (
     <section className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[1.05fr_0.95fr]">
-      <div className="glass-hero rounded-[2.5rem] p-8 text-slate-950 sm:p-10">
-        <p className="text-xs font-semibold uppercase tracking-[0.28em] text-teal-700">
+      <div className="glass-hero theme-foreground rounded-[2.5rem] p-8 sm:p-10">
+        <p className="app-accent-text text-xs font-semibold uppercase tracking-[0.28em]">
           Product catalog access
         </p>
 
-        <h1 className="mt-4 max-w-lg text-4xl font-semibold leading-tight text-slate-950 sm:text-5xl">
+        <h1 className="mt-4 max-w-lg text-4xl font-semibold leading-tight sm:text-5xl">
           Sign in to browse products, categories, and detailed product pages.
         </h1>
 
-        <p className="mt-6 max-w-xl text-base leading-8 text-slate-700">
+        <p className="theme-soft mt-6 max-w-xl text-base leading-8">
           Access the protected catalog to explore products, search by title,
           filter by category, and view full product details in a responsive
           shopping-style experience.
@@ -91,10 +91,10 @@ export default function LoginPageClient() {
         <div className="glass-panel mt-10 rounded-[2rem] p-6">
           <div className="flex items-center justify-between gap-4">
             <div>
-              <p className="text-sm font-semibold text-slate-950">
+              <p className="theme-foreground text-sm font-semibold">
                 Try the demo catalog
               </p>
-              <p className="mt-1 text-sm text-slate-600">
+              <p className="theme-soft mt-1 text-sm">
                 Use these sample credentials to enter the product catalog.
               </p>
             </div>
@@ -102,22 +102,22 @@ export default function LoginPageClient() {
             <button
               type="button"
               onClick={applyDemoCredentials}
-              className="rounded-full bg-slate-950 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800"
+              className="app-contrast-button rounded-full px-4 py-2 text-sm font-semibold transition"
             >
               Autofill
             </button>
           </div>
 
-          <div className="mt-5 grid gap-3 text-sm text-slate-700 sm:grid-cols-2">
+          <div className="theme-soft mt-5 grid gap-3 text-sm sm:grid-cols-2">
             <div className="glass-stat rounded-2xl p-4">
-              <p className="text-xs uppercase tracking-[0.2em] text-slate-500">
+              <p className="theme-muted text-xs uppercase tracking-[0.2em]">
                 Username
               </p>
               <p className="mt-2 font-semibold">{demoCredentials.username}</p>
             </div>
 
             <div className="glass-stat rounded-2xl p-4">
-              <p className="text-xs uppercase tracking-[0.2em] text-slate-500">
+              <p className="theme-muted text-xs uppercase tracking-[0.2em]">
                 Password
               </p>
               <p className="mt-2 font-semibold">{demoCredentials.password}</p>
@@ -129,18 +129,18 @@ export default function LoginPageClient() {
       <div className="glass-panel rounded-[2.5rem] p-8 sm:p-10">
         <div className="flex items-center justify-between gap-4">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-teal-700">
+            <p className="app-accent-text text-xs font-semibold uppercase tracking-[0.24em]">
               Sign in
             </p>
 
-            <h2 className="mt-3 text-3xl font-semibold text-slate-950">
+            <h2 className="theme-foreground mt-3 text-3xl font-semibold">
               Welcome to the catalog
             </h2>
           </div>
 
           <Link
             href="/register"
-            className="rounded-full border border-white/45 bg-white/45 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-white/70"
+            className="app-subtle-button rounded-full px-4 py-2 text-sm font-semibold transition"
           >
             Create account
           </Link>
@@ -148,14 +148,14 @@ export default function LoginPageClient() {
 
         <form onSubmit={handleSubmit} className="mt-8 space-y-5">
           {isRegisteredRedirect ? (
-            <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
+            <div className="app-success rounded-2xl px-4 py-3 text-sm">
               Your demo account was created successfully. Sign in with your
               username or email to continue to the product catalog.
             </div>
           ) : null}
 
           <label className="block">
-            <span className="text-sm font-semibold text-slate-800">
+            <span className="theme-foreground text-sm font-semibold">
               Username or email
             </span>
 
@@ -163,14 +163,14 @@ export default function LoginPageClient() {
               type="text"
               value={credentials.username}
               onChange={(event) => updateField("username", event.target.value)}
-              className="mt-2 w-full rounded-2xl border border-white/55 bg-white/55 px-4 py-3 text-slate-900 outline-none transition focus:border-teal-500 focus:bg-white/85"
+              className="app-input mt-2 w-full rounded-2xl px-4 py-3 outline-none transition focus:border-teal-500"
               placeholder="emilys or your registered email"
               autoComplete="username"
             />
           </label>
 
           <label className="block">
-            <span className="text-sm font-semibold text-slate-800">
+            <span className="theme-foreground text-sm font-semibold">
               Password
             </span>
 
@@ -178,7 +178,7 @@ export default function LoginPageClient() {
               type="password"
               value={credentials.password}
               onChange={(event) => updateField("password", event.target.value)}
-              className="mt-2 w-full rounded-2xl border border-white/55 bg-white/55 px-4 py-3 text-slate-900 outline-none transition focus:border-teal-500 focus:bg-white/85"
+              className="app-input mt-2 w-full rounded-2xl px-4 py-3 outline-none transition focus:border-teal-500"
               placeholder="Enter your password"
               autoComplete="current-password"
             />
@@ -189,13 +189,13 @@ export default function LoginPageClient() {
           <button
             type="submit"
             disabled={!isHydrated || status === "loading"}
-            className="w-full rounded-full bg-teal-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-teal-700 disabled:cursor-not-allowed disabled:bg-slate-400"
+            className="app-primary-button w-full rounded-full px-5 py-3 text-sm font-semibold transition disabled:cursor-not-allowed disabled:bg-slate-400 disabled:text-white"
           >
             {status === "loading" ? "Signing in..." : "Enter catalog"}
           </button>
         </form>
 
-        <p className="mt-6 text-sm leading-7 text-slate-600">
+        <p className="theme-soft mt-6 text-sm leading-7">
           You can sign in with the sample account above or create a demo account
           to access the protected product catalog.
         </p>

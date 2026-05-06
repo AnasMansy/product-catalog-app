@@ -112,24 +112,24 @@ export default function RegisterPageClient() {
 
   return (
     <section className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[0.92fr_1.08fr]">
-      <div className="glass-hero rounded-[2.5rem] p-8 text-slate-950 sm:p-10">
-        <p className="text-xs font-semibold uppercase tracking-[0.28em] text-amber-600">
+      <div className="glass-hero theme-foreground rounded-[2.5rem] p-8 sm:p-10">
+        <p className="app-warm-text text-xs font-semibold uppercase tracking-[0.28em]">
           Demo registration
         </p>
-        <h1 className="mt-4 text-4xl font-semibold leading-tight text-slate-950 sm:text-5xl">
+        <h1 className="mt-4 text-4xl font-semibold leading-tight sm:text-5xl">
           Create a local demo account for this frontend-only starter.
         </h1>
-        <p className="mt-6 text-base leading-8 text-slate-700">
+        <p className="theme-soft mt-6 text-base leading-8">
           This route does not call a backend or database. It validates the
           fields in the browser, stores the account in localStorage under
-          <code className="mx-1 rounded bg-white/45 px-2 py-1 text-sm text-slate-900">
+          <code className="app-subtle-surface theme-foreground mx-1 rounded px-2 py-1 text-sm">
             demoUser
           </code>
           , and hands the credentials off to the login screen.
         </p>
-        <div className="mt-8 grid gap-3 text-sm text-slate-700 sm:grid-cols-2">
+        <div className="theme-soft mt-8 grid gap-3 text-sm sm:grid-cols-2">
           <div className="glass-stat rounded-2xl p-5">
-            <p className="text-xs uppercase tracking-[0.2em] text-slate-500">
+            <p className="theme-muted text-xs uppercase tracking-[0.2em]">
               Validation
             </p>
             <p className="mt-3 leading-7">
@@ -138,7 +138,7 @@ export default function RegisterPageClient() {
             </p>
           </div>
           <div className="glass-stat rounded-2xl p-5">
-            <p className="text-xs uppercase tracking-[0.2em] text-slate-500">
+            <p className="theme-muted text-xs uppercase tracking-[0.2em]">
               Next step
             </p>
             <p className="mt-3 leading-7">
@@ -150,13 +150,13 @@ export default function RegisterPageClient() {
         <div className="mt-8 flex flex-col gap-4 sm:flex-row">
           <Link
             href="/login"
-            className="rounded-full border border-white/50 bg-white/35 px-5 py-3 text-sm font-semibold text-slate-900 transition hover:bg-white/55"
+            className="app-subtle-button rounded-full px-5 py-3 text-sm font-semibold transition"
           >
             Back to login
           </Link>
           <Link
             href="/products"
-            className="rounded-full bg-slate-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
+            className="app-contrast-button rounded-full px-5 py-3 text-sm font-semibold transition"
           >
             Preview protected route
           </Link>
@@ -164,24 +164,24 @@ export default function RegisterPageClient() {
       </div>
 
       <div className="glass-panel rounded-[2.5rem] p-8 sm:p-10">
-        <p className="text-xs font-semibold uppercase tracking-[0.24em] text-teal-700">
+        <p className="app-accent-text text-xs font-semibold uppercase tracking-[0.24em]">
           Register
         </p>
-        <h2 className="mt-3 text-3xl font-semibold text-slate-950">
+        <h2 className="theme-foreground mt-3 text-3xl font-semibold">
           Create your demo credentials
         </h2>
 
         <form onSubmit={handleSubmit} className="mt-8 space-y-5">
           <div className="grid gap-5 sm:grid-cols-2">
             <label className="block sm:col-span-2">
-              <span className="text-sm font-semibold text-slate-800">
+              <span className="theme-foreground text-sm font-semibold">
                 Full name
               </span>
               <input
                 type="text"
                 value={values.name}
                 onChange={(event) => updateField("name", event.target.value)}
-                className="mt-2 w-full rounded-2xl border border-white/55 bg-white/55 px-4 py-3 text-slate-900 outline-none transition focus:border-teal-500 focus:bg-white/85"
+                className="app-input mt-2 w-full rounded-2xl px-4 py-3 outline-none transition focus:border-teal-500"
                 placeholder="Alex Johnson"
                 autoComplete="name"
               />
@@ -191,7 +191,7 @@ export default function RegisterPageClient() {
             </label>
 
             <label className="block">
-              <span className="text-sm font-semibold text-slate-800">
+              <span className="theme-foreground text-sm font-semibold">
                 Username
               </span>
               <input
@@ -200,7 +200,7 @@ export default function RegisterPageClient() {
                 onChange={(event) =>
                   updateField("username", event.target.value)
                 }
-                className="mt-2 w-full rounded-2xl border border-white/55 bg-white/55 px-4 py-3 text-slate-900 outline-none transition focus:border-teal-500 focus:bg-white/85"
+                className="app-input mt-2 w-full rounded-2xl px-4 py-3 outline-none transition focus:border-teal-500"
                 placeholder="alexdemo"
                 autoComplete="username"
               />
@@ -210,14 +210,14 @@ export default function RegisterPageClient() {
             </label>
 
             <label className="block">
-              <span className="text-sm font-semibold text-slate-800">
+              <span className="theme-foreground text-sm font-semibold">
                 Email
               </span>
               <input
                 type="email"
                 value={values.email}
                 onChange={(event) => updateField("email", event.target.value)}
-                className="mt-2 w-full rounded-2xl border border-white/55 bg-white/55 px-4 py-3 text-slate-900 outline-none transition focus:border-teal-500 focus:bg-white/85"
+                className="app-input mt-2 w-full rounded-2xl px-4 py-3 outline-none transition focus:border-teal-500"
                 placeholder="alex@example.com"
                 autoComplete="email"
               />
@@ -227,7 +227,7 @@ export default function RegisterPageClient() {
             </label>
 
             <label className="block">
-              <span className="text-sm font-semibold text-slate-800">
+              <span className="theme-foreground text-sm font-semibold">
                 Password
               </span>
               <input
@@ -236,7 +236,7 @@ export default function RegisterPageClient() {
                 onChange={(event) =>
                   updateField("password", event.target.value)
                 }
-                className="mt-2 w-full rounded-2xl border border-white/55 bg-white/55 px-4 py-3 text-slate-900 outline-none transition focus:border-teal-500 focus:bg-white/85"
+                className="app-input mt-2 w-full rounded-2xl px-4 py-3 outline-none transition focus:border-teal-500"
                 placeholder="At least 8 characters"
                 autoComplete="new-password"
               />
@@ -246,7 +246,7 @@ export default function RegisterPageClient() {
             </label>
 
             <label className="block">
-              <span className="text-sm font-semibold text-slate-800">
+              <span className="theme-foreground text-sm font-semibold">
                 Confirm password
               </span>
               <input
@@ -255,7 +255,7 @@ export default function RegisterPageClient() {
                 onChange={(event) =>
                   updateField("confirmPassword", event.target.value)
                 }
-                className="mt-2 w-full rounded-2xl border border-white/55 bg-white/55 px-4 py-3 text-slate-900 outline-none transition focus:border-teal-500 focus:bg-white/85"
+                className="app-input mt-2 w-full rounded-2xl px-4 py-3 outline-none transition focus:border-teal-500"
                 placeholder="Repeat your password"
                 autoComplete="new-password"
               />
@@ -270,7 +270,7 @@ export default function RegisterPageClient() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full rounded-full bg-teal-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-teal-700 disabled:cursor-not-allowed disabled:bg-slate-400"
+            className="app-primary-button w-full rounded-full px-5 py-3 text-sm font-semibold transition disabled:cursor-not-allowed disabled:bg-slate-400 disabled:text-white"
           >
             {isSubmitting ? "Saving demo account..." : "Create demo account"}
           </button>

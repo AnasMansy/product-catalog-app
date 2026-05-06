@@ -10,7 +10,7 @@ export default function LoadingSpinner({
   return (
     <div
       className={[
-        "flex items-center justify-center gap-3 rounded-3xl border border-black/10 bg-white/80 p-6 text-slate-700 shadow-sm backdrop-blur",
+        "app-loading flex items-center justify-center gap-3 rounded-3xl p-6 shadow-sm",
         fullscreen ? "min-h-[50vh]" : "min-h-32",
       ].join(" ")}
       role="status"
