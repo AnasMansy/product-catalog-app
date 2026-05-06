@@ -1,36 +1,63 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+ 
+## Tech Stack
 
-## Getting Started
+- Next.js 16 with App Router
+- React 19
+- TypeScript
+- Redux Toolkit
+- React Redux
+- Tailwind CSS v4
+- Native `fetch`
+- DummyJSON API
 
-First, run the development server:
+ 
+
+## Setup
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Useful Commands
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run lint
+npm run build
+npm run validate:rtl -- ./path/to/output.docx
+```
 
-## Learn More
+## API Endpoints Used
 
-To learn more about Next.js, take a look at the following resources:
+- `POST https://dummyjson.com/auth/login`
+- `GET https://dummyjson.com/products`
+- `GET https://dummyjson.com/products/{id}`
+- `GET https://dummyjson.com/products/search?q={query}`
+- `GET https://dummyjson.com/products/categories`
+- `GET https://dummyjson.com/products/category/{category}`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Available Routes
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- `/`
+- `/login`
+- `/register`
+- `/products`
+- `/products/[id]`
 
-## Deploy on Vercel
+## Authentication Notes
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- This project is frontend-only and does not create a backend.
+- The login screen stores the returned DummyJSON access token in `localStorage`.
+- Route protection is handled on the client through `ProtectedRoute`.
+- The register page is a placeholder because no custom registration backend is part of this starter.
+- The login view is prefilled with the official DummyJSON demo credentials: `emilys` / `emilyspass`.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Local Run Commands
+
+```bash
+npm install
+npm run dev
+```
+ 
