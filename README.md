@@ -38,8 +38,7 @@ npm run build
 
 ## Live Demo Link
 
-- Not deployed yet.
-- Add your live deployment URL here when available.
+product-catalog-app-eosin-eight.vercel.app
 
 ## Features Included
 
